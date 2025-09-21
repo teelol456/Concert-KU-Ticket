@@ -23,15 +23,17 @@ public class Concert extends JFrame implements ActionListener {
     }
 
     private void setComponent() {
-        ImageIcon userIcon = new ImageIcon("./img/ticket.png");
+        concert = new JLabel("Concert KU Ticket");
+        concert.setFont(new Font("Angsana New", Font.BOLD, 50));
+        concert.setBounds(300, 30, 400, 50);
 
-        // ปรับขนาด
-        Image img = userIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-        userIcon = new ImageIcon(img);
+        b1 = new JButton("BUY TICKET");
+        b1.setFont(new Font("Arial",Font.BOLD,20));
+        b1.setBounds(100,150,200,100);
+        b1.setBackground(Color.decode("#FF9999"));
 
-        JLabel lblUser = new JLabel(userIcon);
-        lblUser.setBounds(100, 120, 100, 100);
-        cp.add(lblUser);
+        cp.add(concert);
+        cp.add(b1);
     }
 
     private void Finally() {

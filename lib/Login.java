@@ -37,16 +37,16 @@ public class Login extends JFrame implements ActionListener{
         b1 = new JButton("Submit");
 
         // กำหนดขนาดและตำแหน่ง
-        login.setBounds(160,20,100,40);
+        login.setBounds(150,20,100,40);
         login.setFont(new Font("Arial",Font.BOLD,30));
 
         username.setBounds(50,100,200,30);
         username.setFont(new Font("Arial",Font.BOLD,15));
-        t1.setBounds(50,130,300,30);
+        t1.setBounds(45,130,300,30);
 
         password.setBounds(50,170,100,30);
         password.setFont(new Font("Arial",Font.BOLD,15));
-        t2.setBounds(50,200,300,30);
+        t2.setBounds(45,200,300,30);
 
         b1.setFont(new Font("Arial",Font.BOLD,15));
         b1.setBounds(130,290,140,40);
@@ -55,7 +55,7 @@ public class Login extends JFrame implements ActionListener{
         lRegister = new JLabel("<html><u>Register here</u></html>"); // ใช้ HTML เพื่อขีดเส้นใต้ข้อความ
         lRegister.setFont(new Font("Arial", Font.PLAIN, 14));
         lRegister.setForeground(Color.BLUE); // เปลี่ยนสีข้อความ
-        lRegister.setBounds(260,240,120,30);
+        lRegister.setBounds(255,240,120,30);
         lRegister.setCursor(new Cursor(Cursor.HAND_CURSOR)); // เปลี่ยนเคอร์เซอร์เมื่อชี้ไปที่ป้าย
         lRegister.addMouseListener(new MouseAdapter() { // เพิ่ม MouseListener
             @Override

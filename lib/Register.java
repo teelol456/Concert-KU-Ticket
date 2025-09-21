@@ -43,15 +43,15 @@ public class Register extends JFrame implements ActionListener {
         // ช่องกรอก Username
         username.setBounds(50,90,200,30);
         username.setFont(new Font("Arial",Font.BOLD,15));
-        t1.setBounds(50,120,300,30);
+        t1.setBounds(45,120,300,30);
         // ช่องกรอก Password
         password1.setBounds(50,170,300,30);
         password1.setFont(new Font("Arial",Font.BOLD,15));
-        t2.setBounds(50,200,300,30);
+        t2.setBounds(45,200,300,30);
         // ช่องกรอก Re-enter Password
         password2.setBounds(50,250,200,30);
         password2.setFont(new Font("Arial",Font.BOLD,15));
-        t3.setBounds(50,280,300,30);
+        t3.setBounds(45,280,300,30);
 
         // ปุ่ม Submit
         b1.setFont(new Font("Arial",Font.BOLD,15));
