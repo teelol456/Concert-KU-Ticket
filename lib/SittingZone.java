@@ -2,13 +2,16 @@ package lib;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.*;
 import java.awt.*;
 
-public class SittingZone extends JFrame implements ActionListener{
+public class SittingZone extends JFrame implements ActionListener , MouseListener{
     Container cp ;
-    JLabel sittingzone ;
+    JLabel sittingzone , L ;
     JButton b1 , b2 ;
+    JButton allBT[] ;
     public SittingZone(){
         Initial(); // ตั้งค่าเริ่มต้น
         setComponent(); // เพิ่ม Component
@@ -21,9 +24,35 @@ public class SittingZone extends JFrame implements ActionListener{
         cp = this.getContentPane(); // สร้าง Container
         cp.setLayout(null); // ปิดการจัดการ Layout
         cp.setBackground(Color.decode("#FFCCCC")); // กำหนดสีพื้นหลัง
+        allBT = new JButton[80];
     }
 
     private void setComponent() {
+        JPanel p = new JPanel();
+        p.setLayout(new GridLayout(5,16 ,5,5)); //กำหนด layout เป็น grid 5x16 ช่อง โดยมีระยะห่างระหว่างปุ่ม 5px
+        p.setBackground(Color.decode("#FFCCCC")); //กำหนดสีพื้นหลังของ panel
+
+        for(int i=0 ; i<80 ; i++){
+            allBT[i] = new JButton();
+            allBT[i].setBackground(Color.white); //ช่องเป็นสีขาว
+            allBT[i].setPreferredSize(new Dimension(20, 20)); //กำหนดขนาดปุ่ม
+            p.add(allBT[i]);
+            allBT[i].addMouseListener(this);
+        }
+        p.setBounds(100, 200, 700, 200); //กำหนดขนาดและตำแหน่งของ panel
+
+         L = new JLabel("0");
+        L.setPreferredSize(new Dimension(200, 40));
+        L.setFont(new Font("Times New Roman", Font.BOLD , 20));
+        L.setHorizontalAlignment(JLabel.CENTER);
+        L.setBounds(350, 450, 200, 40);
+        L.setOpaque(true);
+        L.setBackground(Color.decode("#FF9999"));
+
+        cp.add(L);
+        cp.add(p);
+        
+
         sittingzone = new JLabel("Sitting Zone");
         sittingzone.setFont(new Font("Angsana New", Font.BOLD, 50));
         sittingzone.setBounds(350, 30, 400, 50);
@@ -77,6 +106,42 @@ public class SittingZone extends JFrame implements ActionListener{
         d.setLocationRelativeTo(null);
         //d.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
         d.setVisible(true);
+    }
+
+    int x = 0;
+    Color tmp;
+    @Override
+    public void mouseClicked(MouseEvent e) { //เมื่อคลิกปุ่ม
+        if (tmp == Color.white) {//ถ้าเป็นสีขาวให้เปลี่ยนเป็นเป็นสีแดง
+            e.getComponent().setBackground(Color.red);
+            tmp = Color.red;
+            L.setText(++x+"");//นับเลข+ชึ้นไปเมื่อกดเป็นสีแดง
+        }else if (tmp == Color.red) {
+            e.getComponent().setBackground(Color.white);//ถ้าเป็นสีแดงให้เป็นสีขาว
+            tmp = Color.white;
+            L.setText(--x+"");//ลบเลขเมื่อกดอีกครั้งเป็นสีขาว
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) { //เมื่อกดปุ่มเมาส์ลงไป
+        
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) { //เมื่อปล่อยเมาส์ออกจากปุ่ม
+        
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) { //เมื่อเอาเมาส์มาอยู่เหนือปุ่มให้เปลี่ยนสีปุ่ม
+        tmp = e.getComponent().getBackground();
+        e.getComponent().setBackground(Color.GRAY);
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) { //เมื่อเอาเมาส์ออกจากปุ่มให้เปลี่ยนสีปุ่มกลับเป็นสีเดิม
+        e.getComponent().setBackground(tmp);
     }
     
 }

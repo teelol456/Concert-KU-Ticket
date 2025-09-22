@@ -5,8 +5,8 @@ public class Main {
         //new Login();
         //new Register();
         //new Concert();
-        new Zone();
-        //new StandZone();
+        //new Zone();
+        new StandZone();
         //new SittingZone();
     }
 }

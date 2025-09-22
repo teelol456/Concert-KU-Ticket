@@ -28,14 +28,14 @@ public class Zone extends JFrame implements ActionListener{
         stage = new JLabel("Stage");
         stage.setBounds(550, 100, 200, 100);
         stage.setFont(new Font("Arial", Font.BOLD, 30));
-        stage.setBackground(Color.decode("#FF9999"));
+        stage.setBackground(Color.decode("#f5f5f5"));
         stage.setHorizontalAlignment(JLabel.CENTER);
         stage.setOpaque(true);
 
         b1 = new JButton("Stand Zone");
         b1.setFont(new Font("Arial",Font.BOLD,30));
         b1.setBounds(500,250,300,150);
-        b1.setBackground(Color.decode("#5b5d7aff"));
+        b1.setBackground(Color.decode("#E3EBFD"));
         b1.setHorizontalAlignment(JLabel.CENTER);
         
         b1.addActionListener(this);
@@ -43,7 +43,7 @@ public class Zone extends JFrame implements ActionListener{
         b2 = new JButton("Sit Zone");
         b2.setFont(new Font("Arial",Font.BOLD,30));
         b2.setBounds(500,450,300,150);
-        b2.setBackground(Color.decode("#7dfc8eff"));
+        b2.setBackground(Color.decode("#F8D5F8"));
         b2.setHorizontalAlignment(JLabel.CENTER);
 
         b2.addActionListener(this);
