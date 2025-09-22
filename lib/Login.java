@@ -30,7 +30,7 @@ public class Login extends JFrame implements ActionListener{
     private void setComponent() {
         // เพิ่ม Component
         login = new JLabel("Login");
-        username = new JLabel("Username (E-mail)");
+        username = new JLabel("Username");
         t1 = new JTextField();
         password = new JLabel("Password");
         t2 = new JPasswordField();

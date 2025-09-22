@@ -9,7 +9,7 @@ import java.awt.*;
 
 public class SittingZone extends JFrame implements ActionListener , MouseListener{
     Container cp ;
-    JLabel sittingzone , L ;
+    JLabel sittingzone , L , stage , c1 , c2 , c3 , red , white , black ;
     JButton b1 , b2 ;
     JButton allBT[] ;
     public SittingZone(){
@@ -28,6 +28,44 @@ public class SittingZone extends JFrame implements ActionListener , MouseListene
     }
 
     private void setComponent() {
+        Draw1 a = new Draw1();
+        a.setBounds(240, -100, 400, 400); 
+        cp.add(a);
+
+        stage = new JLabel("Stage");
+        stage.setBounds(400, 90, 200, 100);
+        stage.setFont(new Font("Arial", Font.BOLD, 30));
+
+        c1 = new JLabel();
+        c1.setBounds(650, 20, 30, 30);
+        c1.setBackground(Color.red);
+        c1.setHorizontalAlignment(JLabel.CENTER);
+        c1.setOpaque(true);
+
+        red = new JLabel("Selected");
+        red.setBounds(690, 20, 100, 30);
+        red.setFont(new Font("Arial", Font.PLAIN, 14));
+
+        c2 = new JLabel();
+        c2.setBounds(650, 70, 30, 30);
+        c2.setBackground(Color.white);
+        c2.setHorizontalAlignment(JLabel.CENTER);
+        c2.setOpaque(true);
+
+        white = new JLabel("Available");
+        white.setBounds(690, 70, 100, 30);
+        white.setFont(new Font("Arial", Font.PLAIN, 14));
+
+        c3 = new JLabel();
+        c3.setBounds(650, 120,30, 30);
+        c3.setBackground(Color.black);
+        c3.setHorizontalAlignment(JLabel.CENTER);
+        c3.setOpaque(true);
+
+        black = new JLabel("Unavailable");
+        black.setBounds(690, 120, 100, 30);
+        black.setFont(new Font("Arial", Font.PLAIN, 14));
+        
         JPanel p = new JPanel();
         p.setLayout(new GridLayout(5,16 ,5,5)); //กำหนด layout เป็น grid 5x16 ช่อง โดยมีระยะห่างระหว่างปุ่ม 5px
         p.setBackground(Color.decode("#FFCCCC")); //กำหนดสีพื้นหลังของ panel
@@ -41,7 +79,7 @@ public class SittingZone extends JFrame implements ActionListener , MouseListene
         }
         p.setBounds(100, 200, 700, 200); //กำหนดขนาดและตำแหน่งของ panel
 
-         L = new JLabel("0");
+        L = new JLabel("0");
         L.setPreferredSize(new Dimension(200, 40));
         L.setFont(new Font("Times New Roman", Font.BOLD , 20));
         L.setHorizontalAlignment(JLabel.CENTER);
@@ -49,6 +87,9 @@ public class SittingZone extends JFrame implements ActionListener , MouseListene
         L.setOpaque(true);
         L.setBackground(Color.decode("#FF9999"));
 
+        cp.add(c1); cp.add(c2); cp.add(c3); cp.add(red); cp.add(white); cp.add(black);
+        cp.add(a);
+        cp.add(stage);
         cp.add(L);
         cp.add(p);
         
@@ -144,4 +185,12 @@ public class SittingZone extends JFrame implements ActionListener , MouseListene
         e.getComponent().setBackground(tmp);
     }
     
+    class Draw1 extends JPanel {
+        @Override
+        protected void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setStroke(new BasicStroke(3));
+            g2.drawArc(10, 200, 400, 50, 0, 170);
+        }
+    }
 }

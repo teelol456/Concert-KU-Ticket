@@ -30,7 +30,7 @@ public class Zone extends JFrame implements ActionListener{
         stage.setFont(new Font("Arial", Font.BOLD, 30));
         stage.setBackground(Color.decode("#f5f5f5"));
         stage.setHorizontalAlignment(JLabel.CENTER);
-        stage.setOpaque(true);
+        stage.setOpaque(true); // ทำให้พื้นหลังของ JLabel สามารถมองเห็นได้
 
         b1 = new JButton("Stand Zone");
         b1.setFont(new Font("Arial",Font.BOLD,30));

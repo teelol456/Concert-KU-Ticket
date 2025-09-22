@@ -28,7 +28,7 @@ public class Register extends JFrame implements ActionListener {
     private void setComponent() {
         // เพิ่ม Component
         register = new JLabel("Register");
-        username = new JLabel("Username (E-mail)");
+        username = new JLabel("Username");
         t1 = new JTextField();
         password1 = new JLabel("Password (Should be 8 - 16 characters)");
         t2 = new JPasswordField();

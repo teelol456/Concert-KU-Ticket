@@ -1,15 +1,13 @@
 package lib;
 
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
 public class StandZone extends JFrame implements ActionListener{
 
     Container cp ;
-    JLabel standzone ;
+    JLabel standzone , stand , stage ;
     JButton b1 , b2 ;
     public StandZone(){
         Initial(); // ตั้งค่าเริ่มต้น
@@ -26,9 +24,24 @@ public class StandZone extends JFrame implements ActionListener{
     }
 
     private void setComponent() {
+        Draw1 a = new Draw1();
+        a.setBounds(240, -100, 400, 400); 
+        cp.add(a);
+
         standzone = new JLabel("Stand Zone");
         standzone.setFont(new Font("Angsana New", Font.BOLD, 50));
-        standzone.setBounds(350, 30, 400, 50);
+        standzone.setBounds(370, 30, 400, 50);
+
+        stage = new JLabel("Stage");
+        stage.setBounds(400, 90, 200, 100);
+        stage.setFont(new Font("Arial", Font.BOLD, 30));
+
+        stand = new JLabel("StandZone");
+        stand.setBounds(250, 200, 400, 150);
+        stand.setFont(new Font("Arial", Font.BOLD, 30));
+        stand.setBackground(Color.decode("#E3EBFD"));
+        stand.setHorizontalAlignment(JLabel.CENTER);
+        stand.setOpaque(true); // ทำให้พื้นหลังของ JLabel สามารถมองเห็นได้
 
         b1 = new JButton("OK");
         b1.setFont(new Font("Arial",Font.BOLD,20));
@@ -44,6 +57,8 @@ public class StandZone extends JFrame implements ActionListener{
         b2.addActionListener(this);
 
         cp.add(standzone);
+        cp.add(stage);
+        cp.add(stand);
         cp.add(b1); cp.add(b2);
     }
 
@@ -80,5 +95,13 @@ public class StandZone extends JFrame implements ActionListener{
         //d.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
         d.setVisible(true);
     }
-    
+
+    class Draw1 extends JPanel {
+        @Override
+        protected void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setStroke(new BasicStroke(3));
+            g2.drawArc(10, 200, 400, 50, 0, 170);
+        }
+    }
 }
