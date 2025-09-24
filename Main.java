@@ -8,5 +8,10 @@ public class Main {
         //new Zone();
         //new StandZone();
         //new SittingZone();
+
+        Account a1 = new Account("Tee", "123");
+        AccountManager am1 = new AccountManager();
+        String s = am1.PasswordSecure("teelol5562652");
+        System.out.println(s);
     }
 }

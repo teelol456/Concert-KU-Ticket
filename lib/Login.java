@@ -14,6 +14,9 @@ public class Login extends JFrame implements ActionListener{
     JTextField t1;
     JPasswordField t2;
     JButton b1 ;
+
+    private AccountManager accountManager = new AccountManager();
+    
     public Login(){
         Initial(); // ตั้งค่าเริ่มต้น
         setComponent(); // เพิ่ม Component
@@ -85,48 +88,21 @@ public class Login extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(b1)) { // ตรวจสอบว่ากดปุ่ม Submit หรือไม่
-            ReadFile(t1.getText() , new String(t2.getPassword())); // อ่านไฟล์เพื่อตรวจสอบข้อมูล
+            authenticate(t1.getText() , new String(t2.getPassword()));
         }
     }
 
-    private void ReadFile(String text, String text2) {
-        File f = null;
-        java.io.FileReader fr = null;
-        java.io.BufferedReader br = null;
-        boolean found = false;
-        try {
-            f = new File("./File/Register.csv");
-            fr = new java.io.FileReader(f);
-            br = new java.io.BufferedReader(fr);
-            String line; // อ่านทีละบรรทัด
-            while ((line = br.readLine()) != null) { // อ่านจนกว่าจะหมดไฟล์
-                String[] parts = line.split(","); // แยกข้อมูลด้วยเครื่องหมาย "," และเก็บในอาเรย์
-                if (parts.length >= 2) { // ตรวจสอบว่ามีข้อมูลครบถ้วนหรือไม่โดยมีอย่างน้อย 2 ส่วน
-                    String fileUsername = parts[0]; // ส่วนที่ 0 คือ username
-                    String filePassword = parts[1]; // ส่วนที่ 1 คือ password
-                    if (fileUsername.equals(text) && filePassword.equals(text2)) { // ตรวจสอบข้อมูลว่าตรงกันหรือไม่
-                        found = true; // ถ้าตรงกันให้ตั้งค่า found เป็น true
-                        break; // ออกจากลูป
-                    }
-                }
-            }
-            if (found) { // ถ้าพบข้อมูลที่ตรงกัน
-                new Concert(); // เปิดหน้าต่าง Concert
-                this.dispose(); // ปิดหน้าต่าง Login
-            } else {
-                Popup("Invalid username or password."); // แสดงข้อความผิดพลาด
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        } finally {
-            try {
-                if (br != null) br.close(); // ถ้าไม่ใช่ null ให้ปิด BufferedReader
-                if (fr != null) fr.close(); // ถ้าไม่ใช่ null ให้ปิด FileReader
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-        }
+    private void authenticate(String username, String password) {
+        Account acc = accountManager.getAccount(username);
+        if(accountManager.hasAccount(username)){
+            if(acc.getPassword().equals(password)){
+                new Concert(); 
+                this.dispose(); 
+            } else Popup("Invalid username or password.");
+        }   
+        else Popup("Invalid username or password.");
     }
+
     private void Popup(String s) { // แสดง Popup
         JDialog d = new JDialog();
         JLabel l = new JLabel(s);
