@@ -1,9 +1,6 @@
 package lib;
 
 import java.awt.event.*;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,6 +10,9 @@ public class Register extends JFrame implements ActionListener {
     JTextField t1;
     JPasswordField t2 , t3;
     JButton b1 , b2 ;
+
+    private AccountManager accountManager = new AccountManager();
+    
     public Register(){
         Initial(); // ตั้งค่าเริ่มต้น
         setComponent(); // เพิ่ม Component
@@ -86,55 +86,32 @@ public class Register extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) { // ตรวจสอบว่าปุ่มไหนถูกกด
         if (e.getSource() == b1) { // ถ้ากดปุ่ม Submit
-            String tmp = t1.getText();
             String pass1 = new String(t2.getPassword()); // แปลง JPasswordField เป็น String
             String pass2 = new String(t3.getPassword()); // แปลง JPasswordField เป็น String
-            for (int i = 0 ; i < tmp.length(); i++){
-                if (tmp.charAt(i) == '@') { // ตรวจสอบว่ามี @ ในอีเมลหรือไม่
-                    WriteFile(t1.getText() , new String(t2.getPassword())); // เขียนไฟล์
-                    this.dispose(); // Close the register window
-                    new Login(); // Open the login window
-                    Popup("Complete!!!");
-                    return;
-                }
-                else if (i == tmp.length() - 1) { // ถ้าไม่มี @ เลย
-                    Popup("Invalid E-mail format.");
-                    return;
-                }
-                else if (pass1.length() < 8 || pass1.length() > 16) { // ตรวจสอบความยาวรหัสผ่าน
-                    Popup("Password must be 8 - 16 characters.");
-                    return;
-                }
-                else if (!pass1.equals(pass2)) { // ตรวจสอบว่ารหัสผ่านทั้งสองช่องตรงกันหรือไม่
-                    Popup("Passwords do not match.");
-                    return;
-                }
-            }
+            createAccount(t1.getText(),pass1,pass2);
         }
         else if (e.getSource() == b2) { // ถ้ากดปุ่ม Cancel
             this.dispose(); // Close the register window
             new Login(); // Open the login window
         }
     }
-    private void WriteFile(String text1, String text2) { // เขียนไฟล์
-        File f = null;
-        FileWriter fw = null;
-        BufferedWriter bw = null;
-        try {
-            f = new File("./File/Register.csv");
-            fw = new FileWriter(f,true);
-            bw = new BufferedWriter(fw);
-            bw.write(text1+","+text2+"\n");
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        finally{
-            try {
-                bw.close(); fw.close();
-            } catch (Exception e) {
-                System.out.println(e);
+
+    private void createAccount(String username, String password1,String password2) {
+        if(!accountManager.hasAccount(username)) {
+            if(!(accountManager.PasswordSecure(password1).equals(""))){
+                Popup(accountManager.PasswordSecure(password1));
             }
+            else if(password1.equals(password2)){
+                String s = username + "," +password1;
+                Account a = Account.fromString(s);     
+                accountManager.SaveAccount(a);
+                this.dispose(); 
+                new Login(); 
+                Popup("Complete!!!");
+            }
+            else Popup("Passwords do not match.");
         }
+        else Popup("The username is already in use.");
     }
     public void Popup(String s) { // แสดง Popup
         JDialog d = new JDialog();
