@@ -11,7 +11,7 @@ public class Main {
 
         Account a1 = new Account("Tee", "123");
         AccountManager am1 = new AccountManager();
-        String s = am1.PasswordSecure("teelol5562652");
+        String s = am1.PasswordSecure("Teelol5562652");
         System.out.println(s);
     }
 }

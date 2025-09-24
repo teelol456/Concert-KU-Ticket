@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
-import java.io.File;
 
 public class Login extends JFrame implements ActionListener{
     Container cp ;
@@ -88,11 +87,11 @@ public class Login extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(b1)) { // ตรวจสอบว่ากดปุ่ม Submit หรือไม่
-            authenticate(t1.getText() , new String(t2.getPassword()));
+            CheckAccount(t1.getText() , new String(t2.getPassword()));
         }
     }
 
-    private void authenticate(String username, String password) {
+    private void CheckAccount(String username, String password) {
         Account acc = accountManager.getAccount(username);
         if(accountManager.hasAccount(username)){
             if(acc.getPassword().equals(password)){
