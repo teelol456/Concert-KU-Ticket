@@ -60,6 +60,7 @@ public class Concert extends JFrame implements ActionListener {
         // โหลดรูปภาพจาก resources 
         // โดย หาจากgetclass() คือ class concert ที่เราอยู่ 
         //getResource() คือ path ของรูปที่อยู่ใน resources
+        //หารูปที่มีขนาด ประมาณ 150x100 px หรือน้อยกว่านั้น หรือมากกว่านี้นิดนึง
         ImageIcon icon = new ImageIcon(getClass().getResource("/img/Doro2.jpg")); 
         ImageIcon icon2 = new ImageIcon(getClass().getResource("/img/HmDoro.jpg"));
         ImageIcon icon3 = new ImageIcon(getClass().getResource("/img/HmDoro.jpg"));
@@ -148,3 +149,4 @@ public class Concert extends JFrame implements ActionListener {
     }
     
 }
+
