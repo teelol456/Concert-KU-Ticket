@@ -84,8 +84,8 @@ public class AdminLogin extends JFrame implements ActionListener{
         Account acc = accountManager.getAccount(username);
         if(accountManager.hasAccount(username)){
             if(acc.getPassword().equals(password)){
-                new AdminConcert(); 
-                this.dispose(); 
+                new AdminConcert();
+                this.dispose();
             } else Popup("Invalid username or password.");
         }   
         else Popup("Invalid username or password.");

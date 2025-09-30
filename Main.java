@@ -10,6 +10,7 @@ public class Main {
         //new StandZone();
         //new SittingZone();
 
-        new AdminLogin();
+        //new AdminLogin();
+        new AdminConcert();
     }
 }

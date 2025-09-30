@@ -148,7 +148,7 @@ public class SittingZone extends JFrame implements ActionListener , MouseListene
         //d.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
         d.setVisible(true);
     }
-
+    
     int x = 0;
     Color tmp;
     @Override
