@@ -3,7 +3,7 @@ import Admin.*;
 
 public class Main {
     public static void main(String[] args) {
-        //new Login();
+        new Login();
         //new Register();
         //new Concert();
         //new Zone();
@@ -11,6 +11,6 @@ public class Main {
         //new SittingZone();
 
         //new AdminLogin();
-        new AdminConcert();
+        //new AdminConcert();
     }
 }

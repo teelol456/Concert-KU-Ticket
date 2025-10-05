@@ -2,9 +2,7 @@ package Admin;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.PrintWriter;
-
+import java.io.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -127,10 +125,12 @@ public class AdminConcert extends JFrame implements ActionListener{
         b3.setBounds(700, 600, 150, 30);
         b3.addActionListener(this);
         cp.add(b3);
+
+        loadFromCSV();
     }
 
     private void Finally() {
-        this.setTitle("Concert KU Ticket");
+        this.setTitle("Concert KU Ticket (Admin)");
         this.setSize(900,700); // ขนาดหน้าต่าง
         this.setLocationRelativeTo(null); // หน้าต่างแสดงตรงกลางจอ
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // ปิดโปรแกรมเมื่อกดปิด
@@ -140,16 +140,15 @@ public class AdminConcert extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == b1) {
-            // กดปุ่ม Add → เพิ่มข้อมูลเข้า JTable
-            String name = t1.getText().trim();
-            String day = t2.getText().trim();
-            String location = t3.getText().trim();
+            String name = t1.getText();
+            String day = t2.getText();
+            String location = t3.getText();
             String filename = (String) cbImages.getSelectedItem();
 
             if (!name.isEmpty() && !day.isEmpty() && !location.isEmpty() && filename != null) {
                 ImageIcon icon = new ImageIcon("./img/" + filename);    
                 Image img = icon.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
-                icon = new ImageIcon(img);
+                icon = new ImageIcon(img); 
                 icon.setDescription(filename); // เก็บชื่อไฟล์เพื่อ Save CSV
 
                 model.addRow(new Object[]{name, day, location, icon});
@@ -174,19 +173,33 @@ public class AdminConcert extends JFrame implements ActionListener{
     }
 
     private void saveToCSV() {
-        try (PrintWriter pw = new PrintWriter("./File/Concert.csv")) {
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        try {
+            fw = new FileWriter("./File/Concert.CSV");
+            bw = new BufferedWriter(fw);
+
             for (int i = 0; i < model.getRowCount(); i++) {
-                String name = (String) model.getValueAt(i, 0);
-                String day = (String) model.getValueAt(i, 1);
-                String location = (String) model.getValueAt(i, 2);
-                ImageIcon icon = (ImageIcon) model.getValueAt(i, 3);
-                String filename = icon != null ? icon.getDescription() : "";
-                pw.println(name + "," + day + "," + location + "," + filename);
+                String name = model.getValueAt(i, 0).toString();
+                String day = model.getValueAt(i, 1).toString();
+                String location = model.getValueAt(i, 2).toString();
+                
+                String filename = ((ImageIcon) model.getValueAt(i, 3)).getDescription();
+                bw.write(name + "," + day + "," + location + "," + filename);
+                bw.newLine(); // ขึ้นบรรทัดใหม่
             }
+
+            System.out.println("บันทึกข้อมูลลงไฟล์เรียบร้อยแล้ว");
             Popup("Saved to concerts.csv");
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println(e);
-            Popup("Error saving CSV");
+        } finally {
+            try {
+                if (bw != null) bw.close();
+                if (fw != null) fw.close();
+            } catch (IOException e) {
+                System.out.println(e);
+            }
         }
     }
     private void Popup(String s) { // แสดง Popup
@@ -199,5 +212,58 @@ public class AdminConcert extends JFrame implements ActionListener{
         d.setLocationRelativeTo(null);
         //d.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
         d.setVisible(true);
+    }
+
+
+    public static String[][] loadConcertsSimple() {
+        String[][] data = new String[100][4]; 
+        int row = 0;
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("./File/Concert.CSV"));
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",", 4); // 4 คอลัมน์
+                for (int i = 0; i < 4; i++) {
+                    data[row][i] = parts[i];
+                }
+                row++;
+            }
+            br.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        // คืนค่า array ที่มีข้อมูลจริง
+        String[][] result = new String[row][4];
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < 4; j++) {
+                result[i][j] = data[i][j];
+            }
+        }
+        return result;
+    }
+    private void loadFromCSV() {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("./File/Concert.CSV"));
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",", 4); // ชื่อ, วัน, สถานที่, รูป
+                String name = parts[0];
+                String day = parts[1];
+                String location = parts[2];
+                String filename = parts[3];
+
+                ImageIcon icon = new ImageIcon("./img/" + filename);
+                Image img = icon.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
+                icon = new ImageIcon(img);
+                icon.setDescription(filename);
+
+                model.addRow(new Object[]{name, day, location, icon});
+            }
+            br.close();
+        } catch (Exception e) {
+            System.out.println("Error loading CSV: " + e.getMessage());
+        }
     }
 }
