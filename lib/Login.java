@@ -5,11 +5,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import javax.swing.*;
+
+import Admin.AdminLogin;
+
 import java.awt.event.MouseEvent;
 
 public class Login extends JFrame implements ActionListener{
     Container cp ;
-    JLabel login , username , password , lRegister;
+    JLabel login , username , password , lRegister , admin;
     JTextField t1;
     JPasswordField t2;
     JButton b1 ;
@@ -65,6 +68,17 @@ public class Login extends JFrame implements ActionListener{
                 Register(); // เรียกฟังก์ชัน Register()
             }
         });
+        admin = new JLabel("<html><u>Admin</u></html>"); // ใช้ HTML เพื่อขีดเส้นใต้ข้อความ
+        admin.setFont(new Font("Arial", Font.PLAIN, 14));
+        admin.setForeground(Color.BLUE); // เปลี่ยนสีข้อความ
+        admin.setBounds(320,10,120,30);
+        admin.setCursor(new Cursor(Cursor.HAND_CURSOR)); // เปลี่ยนเคอร์เซอร์เมื่อชี้ไปที่ป้าย
+        admin.addMouseListener(new MouseAdapter() { // เพิ่ม MouseListener
+            @Override
+            public void mouseClicked(MouseEvent e) { // เมื่อคลิกที่ป้าย Register
+                Admin(); // เรียกฟังก์ชัน Register()
+            }
+        });
         // เพิ่ม Event
         b1.addActionListener(this); //อย่าลืม
 
@@ -72,7 +86,7 @@ public class Login extends JFrame implements ActionListener{
         cp.add(login); 
         cp.add(username); cp.add(t1);
         cp.add(password); cp.add(t2);
-        cp.add(b1); cp.add(lRegister);
+        cp.add(b1); cp.add(lRegister); cp.add(admin);
     }
 
     private void Finally() {
@@ -116,5 +130,9 @@ public class Login extends JFrame implements ActionListener{
     public void Register() {
         new Register(); // เปิดหน้าต่าง Register
         this.dispose(); // ปิดหน้าต่าง Login
+    }
+    public void Admin(){
+        new AdminLogin();
+        this.dispose();
     }
 }
