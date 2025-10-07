@@ -6,8 +6,9 @@ import javax.swing.*;
 
 public class Zone extends JFrame implements ActionListener{
     Container cp ;
-    JLabel zone , stage ;
+    JLabel zone , stage , con_img;
     JButton b1 , b2 , b3 ;
+    String imgFile = "1.jpg";
     public Zone(){
         Initial(); // ตั้งค่าเริ่มต้น
         setComponent(); // เพิ่ม Component
@@ -24,6 +25,12 @@ public class Zone extends JFrame implements ActionListener{
         zone = new JLabel("Zone");
         zone.setFont(new Font("Angsana New", Font.BOLD, 50));
         zone.setBounds(400, 30, 400, 50);
+
+        ImageIcon icon = new ImageIcon("./img/" + imgFile);
+        Image img = icon.getImage().getScaledInstance(150, 173, Image.SCALE_SMOOTH);
+        icon = new ImageIcon(img);
+        con_img = new JLabel(icon);
+        con_img.setBounds(50, 150, 150, 173);
 
         stage = new JLabel("Stage");
         stage.setBounds(550, 100, 200, 100);
@@ -55,6 +62,8 @@ public class Zone extends JFrame implements ActionListener{
         b3.addActionListener(this);
 
         cp.add(zone,BorderLayout.NORTH);
+        cp.add(con_img);
+
         cp.add(stage,BorderLayout.WEST);
         cp.add(b1,BorderLayout.WEST);
         cp.add(b2,BorderLayout.WEST);
@@ -65,7 +74,7 @@ public class Zone extends JFrame implements ActionListener{
         this.setSize(900,700);
         this.setLocationRelativeTo(null); // หน้าต่างแสดงตรงกลางจอ
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // ปิดโปรแกรมเมื่อกดปิด
-        this.setResizable(false); // ปิดการปรับขนาดหน้าต่าง
+        this.setResizable(true); // ปิดการปรับขนาดหน้าต่าง
         this.setVisible(true); // แสดงหน้าต่าง
     }
     @Override
