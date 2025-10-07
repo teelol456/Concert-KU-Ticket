@@ -1,15 +1,15 @@
-import lib.*;
 import Admin.*;
+import GUI.*;
 
-public class Main {
+        public class Main {
     public static void main(String[] args) {
-        //new Login();
-        //new Register();
-        new Concert();
-        //new Zone();
-        //new StandZone();
-        //new SittingZone();
-        
+        new LoginGUI();
+        //new RegisterGUI();
+        //new ConcertGUI();
+        //new ZoneGUI();
+        //new StandZoneGUI();
+        //new SittingZoneGUI();
+
         //new AdminLogin();
         //new AdminConcert();
     }
