@@ -4,11 +4,23 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import Concert.Concert;
+
 public class ZoneGUI extends JFrame implements ActionListener{
     Container cp ;
     JLabel zone , stage ;
     JButton b1 , b2 , b3 ;
+    Concert concert;
+
     public ZoneGUI(){
+        Initial(); // ตั้งค่าเริ่มต้น
+        setComponent(); // เพิ่ม Component
+        Finally(); // ตั้งค่าขั้นสุดท้าย
+    }
+
+    public ZoneGUI(Concert concert){
+        this.concert = concert;
+
         Initial(); // ตั้งค่าเริ่มต้น
         setComponent(); // เพิ่ม Component
         Finally(); // ตั้งค่าขั้นสุดท้าย
@@ -31,7 +43,7 @@ public class ZoneGUI extends JFrame implements ActionListener{
         stage.setBackground(Color.decode("#f5f5f5"));
         stage.setHorizontalAlignment(JLabel.CENTER);
         stage.setOpaque(true); // ทำให้พื้นหลังของ JLabel สามารถมองเห็นได้
-
+        
         b1 = new JButton("Stand Zone");
         b1.setFont(new Font("Arial",Font.BOLD,30));
         b1.setBounds(500,250,300,150);

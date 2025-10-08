@@ -10,7 +10,7 @@ public class AdminConcert extends JFrame implements ActionListener{
     Container cp ;
     JTable table;
     DefaultTableModel model;
-    JTextField t1, t2, t3;
+    JTextField t1, t2, t3, t4, t5;
     JButton b1, b2 , b3;
     JComboBox<String> cbImages;
     JLabel lbPreview;
@@ -32,8 +32,8 @@ public class AdminConcert extends JFrame implements ActionListener{
         lbTitle.setBounds(350, 20, 300, 40);
         cp.add(lbTitle);
 
-        // ตาราง (ชื่อ, วัน, สถานที่, รูปภาพ)
-        String[] columns = {"ConcertName", "Day", "Location" , "Image"};
+        // ตาราง (ชื่อ, วัน, สถานที่, ราคาบัตรยืน , ราคาบัตรนั่ง ,รูปภาพ)
+        String[] columns = {"ConcertName", "Day", "Location" ,"Stand","Sit", "Image"};
         model = new DefaultTableModel(columns, 0);
         table = new JTable(model);
         JScrollPane scroll = new JScrollPane(table);
@@ -62,9 +62,23 @@ public class AdminConcert extends JFrame implements ActionListener{
         t3.setBounds(220, 500, 200, 30);
         cp.add(t3);
 
+        JLabel lbStandprice = new JLabel("Standing ticket price:");
+        lbStandprice.setBounds(100, 540, 100, 30);
+        cp.add(lbStandprice);
+        t4 = new JTextField();
+        t4.setBounds(220, 540, 200, 30);
+        cp.add(t4);
+
+        JLabel lbSitprice = new JLabel("Sitting ticket price:");
+        lbSitprice.setBounds(100, 580, 100, 30);
+        cp.add(lbSitprice);
+        t5 = new JTextField();
+        t5.setBounds(220, 580, 200, 30);
+        cp.add(t5);
+
         // ComboBox เลือกรูปจากโฟลเดอร์ ./img/
         JLabel lbImage = new JLabel("Image:");
-        lbImage.setBounds(100, 540, 100, 30);
+        lbImage.setBounds(100, 620, 100, 30);
         cp.add(lbImage);
 
         File folder = new File("./img/");
@@ -88,7 +102,7 @@ public class AdminConcert extends JFrame implements ActionListener{
         }
 
         // กำหนดตำแหน่งและขนาด
-        cbImages.setBounds(220, 540, 200, 30);
+        cbImages.setBounds(220, 620, 200, 30);
 
         // เพิ่ม JComboBox ลงใน Container
         cp.add(cbImages);
@@ -143,18 +157,22 @@ public class AdminConcert extends JFrame implements ActionListener{
             String name = t1.getText();
             String day = t2.getText();
             String location = t3.getText();
+            String stand = t4.getText();
+            String sit = t5.getText();
             String filename = (String) cbImages.getSelectedItem();
 
-            if (!name.isEmpty() && !day.isEmpty() && !location.isEmpty() && filename != null) {
+            if (!name.isEmpty() && !day.isEmpty() && !location.isEmpty() && !stand.isEmpty() && !sit.isEmpty() && filename != null) {
                 ImageIcon icon = new ImageIcon("./img/" + filename);    
                 Image img = icon.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
                 icon = new ImageIcon(img); 
                 icon.setDescription(filename); // เก็บชื่อไฟล์เพื่อ Save CSV
 
-                model.addRow(new Object[]{name, day, location, icon});
+                model.addRow(new Object[]{name, day, location, stand, sit, icon});
                 t1.setText("");
                 t2.setText("");
                 t3.setText("");
+                t4.setText("");
+                t5.setText("");
                 lbPreview.setIcon(null);
             } else {
                 Popup("Please fill in all fields.");
@@ -183,15 +201,17 @@ public class AdminConcert extends JFrame implements ActionListener{
                 String name = model.getValueAt(i, 0).toString();
                 String day = model.getValueAt(i, 1).toString();
                 String location = model.getValueAt(i, 2).toString();
+                String stand = model.getValueAt(i, 3).toString();
+                String sit = model.getValueAt(i, 4).toString();
                 
-                String filename = ((ImageIcon) model.getValueAt(i, 3)).getDescription();
-                bw.write(name + "," + day + "," + location + "," + filename);
+                String filename = ((ImageIcon) model.getValueAt(i, 5)).getDescription();
+                bw.write(name + "," + day + "," + location + "," + stand + "," + sit + "," + filename);
                 bw.newLine(); // ขึ้นบรรทัดใหม่
             }
 
             System.out.println("บันทึกข้อมูลลงไฟล์เรียบร้อยแล้ว");
             Popup("Saved to concerts.csv");
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println(e);
         } finally {
             try {
@@ -215,16 +235,16 @@ public class AdminConcert extends JFrame implements ActionListener{
     }
 
 
-    public static String[][] loadConcertsSimple() {
-        String[][] data = new String[100][4]; 
+    /*public static String[][] loadConcertsSimple() {
+        String[][] data = new String[100][6]; 
         int row = 0;
 
         try {
             BufferedReader br = new BufferedReader(new FileReader("./File/Concert.CSV"));
             String line;
             while ((line = br.readLine()) != null) {
-                String[] parts = line.split(",", 4); // 4 คอลัมน์
-                for (int i = 0; i < 4; i++) {
+                String[] parts = line.split(",", 6); // 6 คอลัมน์
+                for (int i = 0; i < 6; i++) {
                     data[row][i] = parts[i];
                 }
                 row++;
@@ -235,36 +255,41 @@ public class AdminConcert extends JFrame implements ActionListener{
         }
 
         // คืนค่า array ที่มีข้อมูลจริง
-        String[][] result = new String[row][4];
+        String[][] result = new String[row][6];
         for (int i = 0; i < row; i++) {
-            for (int j = 0; j < 4; j++) {
+            for (int j = 0; j < 6; j++) {
                 result[i][j] = data[i][j];
             }
         }
         return result;
-    }
+    }*/
     
     private void loadFromCSV() {
         try {
             BufferedReader br = new BufferedReader(new FileReader("./File/Concert.CSV"));
             String line;
             while ((line = br.readLine()) != null) {
-                String[] parts = line.split(",", 4); // ชื่อ, วัน, สถานที่, รูป
+                String[] parts = line.split(",", 6); // ชื่อ, วัน, สถานที่,ราคาบัตรยืน , ราคาบัตรนั่ง , รูป
                 String name = parts[0];
                 String day = parts[1];
                 String location = parts[2];
-                String filename = parts[3];
+                String stand = parts[3];
+                String sit = parts[4];
+                String filename = parts[5];
 
                 ImageIcon icon = new ImageIcon("./img/" + filename);
                 Image img = icon.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
                 icon = new ImageIcon(img);
                 icon.setDescription(filename);
 
-                model.addRow(new Object[]{name, day, location, icon});
+                model.addRow(new Object[]{name, day, location, stand , sit, icon});
             }
             br.close();
         } catch (Exception e) {
-            System.out.println("Error loading CSV: " + e.getMessage());
+            System.out.println(e);
         }
+    }  
+    public static void main(String[] args) {
+        new AdminConcert();
     }
 }

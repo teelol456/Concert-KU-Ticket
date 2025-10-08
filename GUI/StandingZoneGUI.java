@@ -5,10 +5,9 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class StandingZoneGUI extends JFrame implements ActionListener{
-
     Container cp ;
-    JLabel standzone , stand , stage ;
-    JButton b1 , b2 ;
+    JLabel standzone , stand , stage , num ;
+    JButton b1 , b2 , minusButton , plusbButton;
     public StandingZoneGUI(){
         Initial(); // ตั้งค่าเริ่มต้น
         setComponent(); // เพิ่ม Component
@@ -43,6 +42,24 @@ public class StandingZoneGUI extends JFrame implements ActionListener{
         stand.setHorizontalAlignment(JLabel.CENTER);
         stand.setOpaque(true); // ทำให้พื้นหลังของ JLabel สามารถมองเห็นได้
 
+        plusbButton = new JButton(" > ");
+        plusbButton.setFont(new Font("Arial",Font.BOLD,20));
+        plusbButton.setBounds(510,400,60,50);
+        plusbButton.setBackground(Color.decode("#FF9999"));
+
+        minusButton = new JButton(" < ");
+        minusButton.setFont(new Font("Arial",Font.BOLD,20));
+        minusButton.setBounds(330,400,60,50);
+        minusButton.setBackground(Color.decode("#FF9999"));
+
+        num = new JLabel("0");
+        num.setPreferredSize(new Dimension(200, 40));
+        num.setFont(new Font("Times New Roman", Font.BOLD , 20));
+        num.setHorizontalAlignment(JLabel.CENTER);
+        num.setBounds(425, 400, 50, 40);
+        num.setOpaque(true);
+        num.setBackground(Color.decode("#FF9999"));
+
         b1 = new JButton("OK");
         b1.setFont(new Font("Arial",Font.BOLD,20));
         b1.setBounds(400,500,100,50);
@@ -55,10 +72,13 @@ public class StandingZoneGUI extends JFrame implements ActionListener{
 
         b1.addActionListener(this);
         b2.addActionListener(this);
+        plusbButton.addActionListener(this);
+        minusButton.addActionListener(this);
 
         cp.add(standzone);
         cp.add(stage);
         cp.add(stand);
+        cp.add(plusbButton); cp.add(minusButton); cp.add(num);
         cp.add(b1); cp.add(b2);
     }
 
@@ -71,6 +91,7 @@ public class StandingZoneGUI extends JFrame implements ActionListener{
         this.setVisible(true); // แสดงหน้าต่าง
     }
 
+    int count = 0;
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == b1) {
@@ -80,6 +101,15 @@ public class StandingZoneGUI extends JFrame implements ActionListener{
         else if (e.getSource() == b2) {
             this.dispose();
             new ZoneGUI();
+        } 
+        else if (e.getSource() == minusButton) {
+            if (count > 0) {
+                num.setText(--count + "");  // ลดค่าก่อนแสดง
+            }
+        } else if (e.getSource() == plusbButton) {
+            if (count < 2) {
+                num.setText(++count + "");  // เพิ่มค่าก่อนแสดง
+            }
         }
     }
 
@@ -103,5 +133,9 @@ public class StandingZoneGUI extends JFrame implements ActionListener{
             g2.setStroke(new BasicStroke(3));
             g2.drawArc(10, 200, 400, 50, 0, 170);
         }
+    }
+
+    public static void main(String[] args) {
+        new StandingZoneGUI();
     }
 }

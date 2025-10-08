@@ -2,13 +2,18 @@ package GUI;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.io.*;
+
+import Concert.*;
+
 import java.util.*;
+import java.util.List;
 
 public class ConcertGUI extends JFrame implements ActionListener {
     Container cp;
     ArrayList<JButton> buttons = new ArrayList<>();
     ArrayList<String> images = new ArrayList<>();
+
+    private ConcertManager concertManager = new ConcertManager();
     
     public ConcertGUI() {
         ImageIcon img = new ImageIcon("./img/ticket.png");
@@ -44,47 +49,35 @@ public class ConcertGUI extends JFrame implements ActionListener {
     }
 
     private void loadConcertsFromCSV(JPanel panel) {
-        try {
-            BufferedReader br = new BufferedReader(new FileReader("./File/Concert.CSV"));
-            String line;
-            int x = 50, y = 50; // ปรับช่องว่าง ด้านบน ด้านข้าง
-            int count = 0;
+        
+        List<Concert> cl = concertManager.getConcertList();
+        int x = 50, y = 50; // ปรับช่องว่าง ด้านบน ด้านข้าง
+        int count = 0;
+        for (Concert c : cl){
+            JButton btn = new JButton(c.getConcertName());
+            btn.setBounds(x, y, 150, 195);
+            btn.setBackground(Color.decode("#FF9999"));
+            btn.addActionListener(this);
 
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-                String name = data[0];
-                String imgFile = data[3];
+            // โหลดรูป
+            ImageIcon icon = new ImageIcon("./img/" + c.getImage());
+            Image img = icon.getImage().getScaledInstance(150, 173, Image.SCALE_SMOOTH);
+            btn.setIcon(new ImageIcon(img));
+            btn.setHorizontalTextPosition(SwingConstants.CENTER);
+            btn.setVerticalTextPosition(SwingConstants.BOTTOM);
 
-                JButton btn = new JButton(name);
-                btn.setBounds(x, y, 150, 195);
-                btn.setBackground(Color.decode("#FF9999"));
-                btn.addActionListener(this);
+            panel.add(btn);
+            buttons.add(btn);   
 
-                // โหลดรูป
-                ImageIcon icon = new ImageIcon("./img/" + imgFile);
-                Image img = icon.getImage().getScaledInstance(150, 173, Image.SCALE_SMOOTH);
-                btn.setIcon(new ImageIcon(img));
-                btn.setHorizontalTextPosition(SwingConstants.CENTER);
-                btn.setVerticalTextPosition(SwingConstants.BOTTOM);
-
-                panel.add(btn);
-                buttons.add(btn);
-                images.add(imgFile);    
-
-                x += 270;
-                count++;
-                if (count % 3 == 0) {
-                    x = 50;
-                    y += 250;
-                }
+            x += 270;
+            count++;
+            if (count % 3 == 0) {
+                x = 50;
+                y += 250;
             }
-            br.close();
             panel.setPreferredSize(new Dimension(750, y + 250));
-        } catch (Exception e) {
-            System.out.println(e);
         }
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton b = (JButton) e.getSource();

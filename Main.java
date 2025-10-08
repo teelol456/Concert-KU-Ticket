@@ -1,16 +1,21 @@
 import Admin.*;
+import Concert.*;
 import GUI.*;
 
-        public class Main {
+public class Main {
     public static void main(String[] args) {
-        new LoginGUI();
+        //new LoginGUI();
         //new RegisterGUI();
-        //new ConcertGUI();
+        new ConcertGUI();
         //new ZoneGUI();
         //new StandZoneGUI();
         //new SittingZoneGUI();
 
         //new AdminLogin();
-        //new AdminConcert();
+        new AdminConcert();
+
+        // ConcertManager am1 = new ConcertManager();
+        // am1.printlist();
+
     }
 }

@@ -1,9 +1,6 @@
 package GUI;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import javax.swing.*;
 import java.awt.*;
 
@@ -154,10 +151,11 @@ public class SeatingZoneGUI extends JFrame implements ActionListener , MouseList
     @Override
     public void mouseClicked(MouseEvent e) { //เมื่อคลิกปุ่ม
         if (tmp == Color.white) {//ถ้าเป็นสีขาวให้เปลี่ยนเป็นเป็นสีแดง
-            e.getComponent().setBackground(Color.red);
-            tmp = Color.red;
-            L.setText(++x+"");//นับเลข+ชึ้นไปเมื่อกดเป็นสีแดง
-        }else if (tmp == Color.red) {
+            if ( x < 2 ) {e.getComponent().setBackground(Color.red);
+                tmp = Color.red;
+                L.setText(++x+"");//นับเลข+ชึ้นไปเมื่อกดเป็นสีแดง 
+            }   
+        } else if (tmp == Color.red) {
             e.getComponent().setBackground(Color.white);//ถ้าเป็นสีแดงให้เป็นสีขาว
             tmp = Color.white;
             L.setText(--x+"");//ลบเลขเมื่อกดอีกครั้งเป็นสีขาว
