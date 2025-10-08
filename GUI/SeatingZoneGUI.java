@@ -8,7 +8,7 @@ public class SeatingZoneGUI extends JFrame implements ActionListener , MouseList
     Container cp ;
     JLabel sittingzone , L , stage , c1 , c2 , c3 , red , white , black ;
     JButton b1 , b2 ;
-    JButton allBT[] ;
+    JButton allBT[][] ;
     public SeatingZoneGUI(){
         Initial(); // ตั้งค่าเริ่มต้น
         setComponent(); // เพิ่ม Component
@@ -21,7 +21,7 @@ public class SeatingZoneGUI extends JFrame implements ActionListener , MouseList
         cp = this.getContentPane(); // สร้าง Container
         cp.setLayout(null); // ปิดการจัดการ Layout
         cp.setBackground(Color.decode("#FFCCCC")); // กำหนดสีพื้นหลัง
-        allBT = new JButton[80];
+        allBT = new JButton[5][16];
     }
 
     private void setComponent() {
@@ -67,12 +67,14 @@ public class SeatingZoneGUI extends JFrame implements ActionListener , MouseList
         p.setLayout(new GridLayout(5,16 ,5,5)); //กำหนด layout เป็น grid 5x16 ช่อง โดยมีระยะห่างระหว่างปุ่ม 5px
         p.setBackground(Color.decode("#FFCCCC")); //กำหนดสีพื้นหลังของ panel
 
-        for(int i=0 ; i<80 ; i++){
-            allBT[i] = new JButton();
-            allBT[i].setBackground(Color.white); //ช่องเป็นสีขาว
-            allBT[i].setPreferredSize(new Dimension(20, 20)); //กำหนดขนาดปุ่ม
-            p.add(allBT[i]);
-            allBT[i].addMouseListener(this);
+        for(int i=0 ; i< 5 ; i++ ){ 
+            for (int j = 0 ; j< 16 ; j ++) {
+                allBT[i][j] = new JButton();
+                allBT[i][j].setBackground(Color.white); //ช่องเป็นสีขาว
+                allBT[i][j].setPreferredSize(new Dimension(20, 20)); //กำหนดขนาดปุ่ม
+                p.add(allBT[i][j]);
+                allBT[i][j].addMouseListener(this); 
+            }
         }
         p.setBounds(100, 200, 700, 200); //กำหนดขนาดและตำแหน่งของ panel
 

@@ -8,7 +8,7 @@ import Concert.Concert;
 
 public class ZoneGUI extends JFrame implements ActionListener{
     Container cp ;
-    JLabel zone , stage ;
+    JLabel zone , stage , date , location , standprice , seatprice;
     JButton b1 , b2 , b3 ;
     Concert concert;
 
@@ -36,6 +36,67 @@ public class ZoneGUI extends JFrame implements ActionListener{
         zone = new JLabel("Zone");
         zone.setFont(new Font("Angsana New", Font.BOLD, 50));
         zone.setBounds(400, 30, 400, 50);
+        
+        if (concert != null) {
+            try {
+                ImageIcon icon = new ImageIcon("./img/" + concert.getImage());
+                JLabel lbPic = new JLabel(icon);
+                lbPic.setBounds(150, 100, 200, 250); // ตำแหน่งรูป
+                Image img = icon.getImage().getScaledInstance(lbPic.getWidth(), lbPic.getHeight(), Image.SCALE_SMOOTH);
+                lbPic.setIcon(new ImageIcon(img));
+                cp.add(lbPic);
+
+                JLabel lbname = new JLabel(concert.getConcertName(), SwingConstants.CENTER);
+                lbname.setFont(new Font("Arial", Font.BOLD, 20));
+                lbname.setBounds(150, 100 + 250 + 20, 200, 30); // ใช้ x ของรูป + กว้างรูปเท่ากับ lbname
+                cp.add(lbname);
+                
+                JLabel lbdate = new JLabel(concert.getDate());
+                lbdate.setFont(new Font("Arial", Font.BOLD, 15));
+                lbdate.setBounds(150, 415, 200, 30); // ใช้ x ของรูป + กว้างรูปเท่ากับ lbname
+                cp.add(lbdate);
+
+                JLabel lblocation = new JLabel(concert.getLocation());
+                lblocation.setFont(new Font("Arial", Font.BOLD, 15));
+                lblocation.setBounds(150, 465, 300, 30); // ใช้ x ของรูป + กว้างรูปเท่ากับ lbname
+                cp.add(lblocation);
+
+                Double standprice = concert.getStandPrice();
+                JLabel lbstandprice = new JLabel(String.valueOf(standprice));
+                lbstandprice.setFont(new Font("Arial", Font.BOLD, 15));
+                lbstandprice.setBounds(150, 515, 300, 30);
+                cp.add(lbstandprice);
+
+                Double seatprice = concert.getSeatPrice();
+                JLabel lbseatprice = new JLabel(String.valueOf(seatprice));
+                lbseatprice.setFont(new Font("Arial", Font.BOLD, 15));
+                lbseatprice.setBounds(150, 565, 300, 30);
+                cp.add(lbseatprice);
+
+
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+        date = new JLabel("Date : ");
+        date.setFont(new Font("Arial", Font.BOLD, 15));
+        date.setBounds(100, 415, 300, 30);
+        cp.add(date);
+
+        location = new JLabel("Location : ");
+        location.setFont(new Font("Arial", Font.BOLD, 15));
+        location.setBounds(71, 465, 300, 30);
+        cp.add(location);
+
+        standprice = new JLabel("Standprice : ");
+        standprice.setFont(new Font("Arial", Font.BOLD, 15));
+        standprice.setBounds(56, 515, 300, 30);
+        cp.add(standprice);
+
+        seatprice = new JLabel("Seatprice : ");
+        seatprice.setFont(new Font("Arial", Font.BOLD, 15));
+        seatprice.setBounds(64, 565, 300, 30);
+        cp.add(seatprice);
 
         stage = new JLabel("Stage");
         stage.setBounds(550, 100, 200, 100);
@@ -94,5 +155,8 @@ public class ZoneGUI extends JFrame implements ActionListener{
             this.dispose();
             new SeatingZoneGUI();
         }
+    }
+    public static void main(String[] args) {
+        new ZoneGUI();
     }
 }

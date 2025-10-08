@@ -82,12 +82,9 @@ public class ConcertGUI extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JButton b = (JButton) e.getSource();
         int index = buttons.indexOf(b);
-        if (index != -1) {
-            new ZoneGUI();
-            this.dispose();
-        }
+        new ZoneGUI(concertManager.getConcert(index));
+        this.dispose();
     }
-    
 
     public static void main(String[] args) {
         new ConcertGUI();

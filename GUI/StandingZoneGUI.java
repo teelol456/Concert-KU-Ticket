@@ -109,6 +109,7 @@ public class StandingZoneGUI extends JFrame implements ActionListener{
         } else if (e.getSource() == plusbButton) {
             if (count < 2) {
                 num.setText(++count + "");  // เพิ่มค่าก่อนแสดง
+                
             }
         }
     }

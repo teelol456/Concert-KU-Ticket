@@ -9,10 +9,10 @@ public class Main {
         new ConcertGUI();
         //new ZoneGUI();
         //new StandZoneGUI();
-        //new SittingZoneGUI();
+        //new SeatingZoneGUI();
 
         //new AdminLogin();
-        new AdminConcert();
+//new AdminConcert();
 
         // ConcertManager am1 = new ConcertManager();
         // am1.printlist();
