@@ -3,11 +3,19 @@ package GUI;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import Concert.Concert;
 
 public class StandingZoneGUI extends JFrame implements ActionListener{
+    Concert concert;
     Container cp ;
     JLabel standzone , stand , stage , num ;
     JButton b1 , b2 , minusButton , plusbButton;
+    public StandingZoneGUI(Concert concert){
+        this.concert = concert;
+        Initial(); // ตั้งค่าเริ่มต้น
+        setComponent(); // เพิ่ม Component
+        Finally(); // ตั้งค่าขั้นสุดท้าย
+    }
     public StandingZoneGUI(){
         Initial(); // ตั้งค่าเริ่มต้น
         setComponent(); // เพิ่ม Component
@@ -99,8 +107,8 @@ public class StandingZoneGUI extends JFrame implements ActionListener{
             this.dispose();
         }
         else if (e.getSource() == b2) {
-            this.dispose();
-            new ZoneGUI();
+            new ZoneGUI(concert); // ส่งข้อมูลเดิมกลับไป
+            this.dispose(); // ปิดหน้าปัจจุบัน
         } 
         else if (e.getSource() == minusButton) {
             if (count > 0) {

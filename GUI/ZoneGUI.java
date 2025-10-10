@@ -149,11 +149,11 @@ public class ZoneGUI extends JFrame implements ActionListener{
         }
         else if (e.getSource() == b1) {
             this.dispose();
-            new StandingZoneGUI();
+            new StandingZoneGUI(concert);
         }
         else if (e.getSource() == b2) {
             this.dispose();
-            new SeatingZoneGUI();
+            new SeatingZoneGUI(concert);
         }
     }
     public static void main(String[] args) {

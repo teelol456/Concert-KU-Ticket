@@ -2,13 +2,24 @@ package GUI;
 
 import java.awt.event.*;
 import javax.swing.*;
+import Concert.Concert;
 import java.awt.*;
 
 public class SeatingZoneGUI extends JFrame implements ActionListener , MouseListener{
+    Concert concert;
     Container cp ;
     JLabel sittingzone , L , stage , c1 , c2 , c3 , red , white , black ;
     JButton b1 , b2 ;
     JButton allBT[][] ;
+
+    public SeatingZoneGUI(Concert concert){
+        this.concert = concert;
+
+        Initial(); // ตั้งค่าเริ่มต้น
+        setComponent(); // เพิ่ม Component
+        Finally(); // ตั้งค่าขั้นสุดท้าย
+    }
+
     public SeatingZoneGUI(){
         Initial(); // ตั้งค่าเริ่มต้น
         setComponent(); // เพิ่ม Component
@@ -130,8 +141,8 @@ public class SeatingZoneGUI extends JFrame implements ActionListener , MouseList
             this.dispose();
         }
         else if (e.getSource() == b2) {
+            new ZoneGUI(concert);
             this.dispose();
-            new ZoneGUI();
         }
     }
 
