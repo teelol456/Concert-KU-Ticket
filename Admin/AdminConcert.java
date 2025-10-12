@@ -13,7 +13,7 @@ public class AdminConcert extends JFrame implements ActionListener{
     JTable table;
     DefaultTableModel model;
     JTextField t1, t2, t3, t4, t5;
-    JButton b1, b2 , b3 , b4;
+    JButton b1, b2 , b3 , b4 , ChooseImgBtn;
     JComboBox<String> cbImages;
     JLabel lbPreview;
     public AdminConcert(){
@@ -124,29 +124,6 @@ public class AdminConcert extends JFrame implements ActionListener{
             }
         });
 
-        /*JButton btnChooseImage = new JButton("เลือกภาพ");
-        btnChooseImage.setBounds(220, 620, 200, 30);
-        cp.add(btnChooseImage);
-
-        lbPreview = new JLabel();
-        lbPreview.setBounds(480, 430, 180, 200);
-        lbPreview.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        cp.add(lbPreview);
-
-        btnChooseImage.addActionListener(e -> {
-            JFileChooser chooser = new JFileChooser("D:\\"); // เริ่มต้นที่ไดรฟ์ D
-            chooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image files", "png", "jpg", "jpeg"));
-            int result = chooser.showOpenDialog(null);
-
-            if (result == JFileChooser.APPROVE_OPTION) {
-                File file = chooser.getSelectedFile();
-                ImageIcon icon = new ImageIcon(file.getAbsolutePath());
-                Image img = icon.getImage().getScaledInstance(lbPreview.getWidth(), lbPreview.getHeight(), Image.SCALE_SMOOTH);
-                lbPreview.setIcon(new ImageIcon(img));
-            }
-        });*/
-
-
         // ปุ่ม Add
         b1 = new JButton("Insert");
         b1.setBounds(700, 420, 150, 30);
@@ -158,6 +135,36 @@ public class AdminConcert extends JFrame implements ActionListener{
         b2.setBounds(700, 460, 150, 30);
         b2.addActionListener(this);
         cp.add(b2);
+        
+          // ปุ่ม เพิ่มรูปจากเครื่อง
+        ChooseImgBtn = new JButton(" Choose Image");
+        ChooseImgBtn.setBounds(700, 520, 150, 30); // ล่าง Delete 40 พิกเซล
+        
+        ChooseImgBtn.addActionListener(e -> {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new File(".")); // เริ่มจากโฟลเดอร์ปัจจุบัน
+        int result = chooser.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = chooser.getSelectedFile();
+                String filename = selectedFile.getName();
+                String destPath = "./img/" + filename;
+
+                    // คัดลอกไฟล์ที่เลือกเข้าโฟลเดอร์ ./img/
+                try {
+                    java.nio.file.Files.copy(selectedFile.toPath(), new File(destPath).toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                    cbImages.addItem(filename);
+                    cbImages.setSelectedItem(filename);
+
+                    // แสดง Preview ทันที
+                    ImageIcon icon = new ImageIcon(destPath);
+                    Image img = icon.getImage().getScaledInstance(lbPreview.getWidth(), lbPreview.getHeight(), Image.SCALE_SMOOTH);
+                    lbPreview.setIcon(new ImageIcon(img));
+            }
+        });
+        cp.add(ChooseImgBtn);
 
         // ปุ่ม Save
         b3 = new JButton("Save");
