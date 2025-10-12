@@ -99,13 +99,13 @@ public class ZoneGUI extends JFrame implements ActionListener{
         cp.add(seatprice);
 
         stage = new JLabel("Stage");
-        stage.setBounds(550, 100, 200, 100);
+        stage.setBounds(550, 100, 200, 80);
         stage.setFont(new Font("Arial", Font.BOLD, 30));
         stage.setBackground(Color.decode("#f5f5f5"));
         stage.setHorizontalAlignment(JLabel.CENTER);
         stage.setOpaque(true); // ทำให้พื้นหลังของ JLabel สามารถมองเห็นได้
         
-        b1 = new JButton("Stand Zone");
+        b1 = new JButton("Stand Zone (A)");
         b1.setFont(new Font("Arial",Font.BOLD,30));
         b1.setBounds(500,250,300,150);
         b1.setBackground(Color.decode("#E3EBFD"));
@@ -113,7 +113,7 @@ public class ZoneGUI extends JFrame implements ActionListener{
         
         b1.addActionListener(this);
 
-        b2 = new JButton("Sit Zone");
+        b2 = new JButton("Sit Zone (B)");
         b2.setFont(new Font("Arial",Font.BOLD,30));
         b2.setBounds(500,450,300,150);
         b2.setBackground(Color.decode("#F8D5F8"));

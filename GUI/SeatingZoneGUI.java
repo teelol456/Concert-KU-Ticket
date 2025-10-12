@@ -8,7 +8,7 @@ import java.awt.*;
 public class SeatingZoneGUI extends JFrame implements ActionListener , MouseListener{
     Concert concert;
     Container cp ;
-    JLabel sittingzone , L , stage , c1 , c2 , c3 , red , white , black ;
+    JLabel sittingzone , L , stage , c1 , c2 , c3 , red , white , black , price;
     JButton b1 , b2 ;
     JButton allBT[][] ;
 
@@ -93,13 +93,22 @@ public class SeatingZoneGUI extends JFrame implements ActionListener , MouseList
         L.setPreferredSize(new Dimension(200, 40));
         L.setFont(new Font("Times New Roman", Font.BOLD , 20));
         L.setHorizontalAlignment(JLabel.CENTER);
-        L.setBounds(350, 450, 200, 40);
+        L.setBounds(425, 500, 50, 40);
         L.setOpaque(true);
         L.setBackground(Color.decode("#FF9999"));
+
+        price = new JLabel("0");
+        price.setPreferredSize(new Dimension(200, 40));
+        price.setFont(new Font("Times New Roman", Font.BOLD , 20));
+        price.setHorizontalAlignment(JLabel.CENTER);
+        price.setBounds(375, 450, 150, 40);
+        price.setOpaque(true);
+        price.setBackground(Color.decode("#FF9999"));
 
         cp.add(c1); cp.add(c2); cp.add(c3); cp.add(red); cp.add(white); cp.add(black);
         cp.add(a);
         cp.add(stage);
+        cp.add(price);
         cp.add(L);
         cp.add(p);
         
@@ -110,7 +119,7 @@ public class SeatingZoneGUI extends JFrame implements ActionListener , MouseList
 
         b1 = new JButton("OK");
         b1.setFont(new Font("Arial",Font.BOLD,20));
-        b1.setBounds(400,500,100,50);
+        b1.setBounds(400,550,100,50);
         b1.setBackground(Color.decode("#FF9999"));
 
         b2 = new JButton("Back");
@@ -167,11 +176,15 @@ public class SeatingZoneGUI extends JFrame implements ActionListener , MouseList
             if ( x < 2 ) {e.getComponent().setBackground(Color.red);
                 tmp = Color.red;
                 L.setText(++x+"");//นับเลข+ชึ้นไปเมื่อกดเป็นสีแดง 
+                double total = concert.getSeatPrice() * x ;
+                price.setText((int)(total) + " Bath");
             }   
         } else if (tmp == Color.red) {
             e.getComponent().setBackground(Color.white);//ถ้าเป็นสีแดงให้เป็นสีขาว
             tmp = Color.white;
             L.setText(--x+"");//ลบเลขเมื่อกดอีกครั้งเป็นสีขาว
+            double total = concert.getSeatPrice() * x ;
+            price.setText((int)(total) + " Bath");
         }
     }
 
@@ -203,5 +216,8 @@ public class SeatingZoneGUI extends JFrame implements ActionListener , MouseList
             g2.setStroke(new BasicStroke(3));
             g2.drawArc(10, 200, 400, 50, 0, 170);
         }
+    }
+    public static void main(String[] args) {
+        new SeatingZoneGUI();
     }
 }

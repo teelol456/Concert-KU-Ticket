@@ -8,7 +8,7 @@ import Concert.Concert;
 public class StandingZoneGUI extends JFrame implements ActionListener{
     Concert concert;
     Container cp ;
-    JLabel standzone , stand , stage , num ;
+    JLabel standzone , stand , stage , num , price;
     JButton b1 , b2 , minusButton , plusbButton;
     public StandingZoneGUI(Concert concert){
         this.concert = concert;
@@ -52,25 +52,33 @@ public class StandingZoneGUI extends JFrame implements ActionListener{
 
         plusbButton = new JButton(" > ");
         plusbButton.setFont(new Font("Arial",Font.BOLD,20));
-        plusbButton.setBounds(510,400,60,50);
+        plusbButton.setBounds(510,450,60,50);
         plusbButton.setBackground(Color.decode("#FF9999"));
 
         minusButton = new JButton(" < ");
         minusButton.setFont(new Font("Arial",Font.BOLD,20));
-        minusButton.setBounds(330,400,60,50);
+        minusButton.setBounds(330,450,60,50);
         minusButton.setBackground(Color.decode("#FF9999"));
 
         num = new JLabel("0");
         num.setPreferredSize(new Dimension(200, 40));
         num.setFont(new Font("Times New Roman", Font.BOLD , 20));
         num.setHorizontalAlignment(JLabel.CENTER);
-        num.setBounds(425, 400, 50, 40);
+        num.setBounds(425, 455, 50, 40);
         num.setOpaque(true);
         num.setBackground(Color.decode("#FF9999"));
 
+        price = new JLabel("0");
+        price.setPreferredSize(new Dimension(200, 40));
+        price.setFont(new Font("Times New Roman", Font.BOLD , 20));
+        price.setHorizontalAlignment(JLabel.CENTER);
+        price.setBounds(375, 400, 150, 40);
+        price.setOpaque(true);
+        price.setBackground(Color.decode("#FF9999"));
+
         b1 = new JButton("OK");
         b1.setFont(new Font("Arial",Font.BOLD,20));
-        b1.setBounds(400,500,100,50);
+        b1.setBounds(400,550,100,50);
         b1.setBackground(Color.decode("#FF9999"));
 
         b2 = new JButton("Back");
@@ -86,7 +94,7 @@ public class StandingZoneGUI extends JFrame implements ActionListener{
         cp.add(standzone);
         cp.add(stage);
         cp.add(stand);
-        cp.add(plusbButton); cp.add(minusButton); cp.add(num);
+        cp.add(plusbButton); cp.add(minusButton); cp.add(num); cp.add(price);
         cp.add(b1); cp.add(b2);
     }
 
@@ -113,11 +121,14 @@ public class StandingZoneGUI extends JFrame implements ActionListener{
         else if (e.getSource() == minusButton) {
             if (count > 0) {
                 num.setText(--count + "");  // ลดค่าก่อนแสดง
+                double total = concert.getStandPrice() * count;
+                price.setText((int)(total) + " Bath");
             }
         } else if (e.getSource() == plusbButton) {
             if (count < 2) {
                 num.setText(++count + "");  // เพิ่มค่าก่อนแสดง
-                
+                double total = concert.getStandPrice() * count;
+                price.setText((int)(total) + " Bath");
             }
         }
     }

@@ -6,12 +6,14 @@ import java.io.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import GUI.LoginGUI;
+
 public class AdminConcert extends JFrame implements ActionListener{
     Container cp ;
     JTable table;
     DefaultTableModel model;
     JTextField t1, t2, t3, t4, t5;
-    JButton b1, b2 , b3;
+    JButton b1, b2 , b3 , b4;
     JComboBox<String> cbImages;
     JLabel lbPreview;
     public AdminConcert(){
@@ -62,14 +64,14 @@ public class AdminConcert extends JFrame implements ActionListener{
         t3.setBounds(220, 500, 200, 30);
         cp.add(t3);
 
-        JLabel lbStandprice = new JLabel("Standing ticket price:");
+        JLabel lbStandprice = new JLabel("Standing price:");
         lbStandprice.setBounds(100, 540, 100, 30);
         cp.add(lbStandprice);
         t4 = new JTextField();
         t4.setBounds(220, 540, 200, 30);
         cp.add(t4);
 
-        JLabel lbSitprice = new JLabel("Sitting ticket price:");
+        JLabel lbSitprice = new JLabel("Sitting price:");
         lbSitprice.setBounds(100, 580, 100, 30);
         cp.add(lbSitprice);
         t5 = new JTextField();
@@ -122,6 +124,29 @@ public class AdminConcert extends JFrame implements ActionListener{
             }
         });
 
+        /*JButton btnChooseImage = new JButton("เลือกภาพ");
+        btnChooseImage.setBounds(220, 620, 200, 30);
+        cp.add(btnChooseImage);
+
+        lbPreview = new JLabel();
+        lbPreview.setBounds(480, 430, 180, 200);
+        lbPreview.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        cp.add(lbPreview);
+
+        btnChooseImage.addActionListener(e -> {
+            JFileChooser chooser = new JFileChooser("D:\\"); // เริ่มต้นที่ไดรฟ์ D
+            chooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image files", "png", "jpg", "jpeg"));
+            int result = chooser.showOpenDialog(null);
+
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File file = chooser.getSelectedFile();
+                ImageIcon icon = new ImageIcon(file.getAbsolutePath());
+                Image img = icon.getImage().getScaledInstance(lbPreview.getWidth(), lbPreview.getHeight(), Image.SCALE_SMOOTH);
+                lbPreview.setIcon(new ImageIcon(img));
+            }
+        });*/
+
+
         // ปุ่ม Add
         b1 = new JButton("Insert");
         b1.setBounds(700, 420, 150, 30);
@@ -139,6 +164,12 @@ public class AdminConcert extends JFrame implements ActionListener{
         b3.setBounds(700, 600, 150, 30);
         b3.addActionListener(this);
         cp.add(b3);
+
+        // ปุ่ม 
+        b4 = new JButton("Back to Login");
+        b4.setBounds(700, 560, 150, 30);
+        b4.addActionListener(this);
+        cp.add(b4);
 
         loadFromCSV();
     }
@@ -187,6 +218,9 @@ public class AdminConcert extends JFrame implements ActionListener{
             }
         } else if (e.getSource() == b3) {
             saveToCSV();
+        } else if (e.getSource() == b4){
+            this.dispose();
+            new LoginGUI();
         }
     }
 
