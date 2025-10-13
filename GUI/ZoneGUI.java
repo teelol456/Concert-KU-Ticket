@@ -48,17 +48,17 @@ public class ZoneGUI extends JFrame implements ActionListener{
 
                 JLabel lbname = new JLabel(concert.getConcertName(), SwingConstants.CENTER);
                 lbname.setFont(new Font("Arial", Font.BOLD, 20));
-                lbname.setBounds(150, 370, 200, 30); // ใช้ x ของรูป + กว้างรูปเท่ากับ lbname
+                lbname.setBounds(150, 370, 200, 30);
                 cp.add(lbname);
                 
                 JLabel lbdate = new JLabel(concert.getDate());
                 lbdate.setFont(new Font("Arial", Font.BOLD, 15));
-                lbdate.setBounds(150, 420, 200, 30); // ใช้ x ของรูป + กว้างรูปเท่ากับ lbname
+                lbdate.setBounds(150, 420, 200, 30);
              
 
                 JLabel lblocation = new JLabel(concert.getLocation());
                 lblocation.setFont(new Font("Arial", Font.BOLD, 15));
-                lblocation.setBounds(150, 470, 300, 30); // ใช้ x ของรูป + กว้างรูปเท่ากับ lbname
+                lblocation.setBounds(150, 470, 300, 30);
               
                 Double standprice = concert.getStandPrice();
                 JLabel lbstandprice = new JLabel(String.valueOf(standprice));
@@ -133,7 +133,7 @@ public class ZoneGUI extends JFrame implements ActionListener{
         stage = new JLabel("Stage");
         stage.setBounds(550, 100, 200, 100);
         stage.setFont(new Font("Arial", Font.BOLD, 30));
-        stage.setBackground(Color.decode("#f5f5f5"));
+        stage.setBackground(Color.decode("#D4D4D4"));
         stage.setHorizontalAlignment(JLabel.CENTER);
         stage.setOpaque(true); // ทำให้พื้นหลังของ JLabel สามารถมองเห็นได้
         
@@ -199,3 +199,4 @@ public class ZoneGUI extends JFrame implements ActionListener{
         new ZoneGUI();
     }
 }
+
