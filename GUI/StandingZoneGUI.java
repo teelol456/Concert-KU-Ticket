@@ -132,8 +132,13 @@ public class StandingZoneGUI extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == b1) {
-            Popup("Thank you for your purchase!");
-            this.dispose();
+            if (!(count != 0)) {
+               Popup("You haven't chosen yet."); 
+            }
+            else {
+                Popup("Thank you for your purchase!");
+                this.dispose();
+            }
         }
         else if (e.getSource() == b2) {
             new ZoneGUI(concert); // ส่งข้อมูลเดิมกลับไป
@@ -180,3 +185,4 @@ public class StandingZoneGUI extends JFrame implements ActionListener{
         new StandingZoneGUI();
     }
 }
+
