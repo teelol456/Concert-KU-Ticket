@@ -171,8 +171,13 @@ public class SeatingZoneGUI extends JFrame implements ActionListener , MouseList
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == b1) {
-            Popup("Thank you for your purchase!");
-            this.dispose();
+            if (!(x != 0)) {
+               Popup("Please select a seat."); 
+            }
+            else {
+                Popup("Thank you for your purchase!");
+                this.dispose();
+            }
         }
         else if (e.getSource() == b2) {
             new ZoneGUI(concert);
@@ -246,3 +251,4 @@ public class SeatingZoneGUI extends JFrame implements ActionListener , MouseList
         new SeatingZoneGUI();
     }
 }
+
