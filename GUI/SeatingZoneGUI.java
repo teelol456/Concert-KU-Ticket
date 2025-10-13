@@ -12,6 +12,9 @@ public class SeatingZoneGUI extends JFrame implements ActionListener , MouseList
     JButton b1 , b2 ;
     JButton allBT[][] ;
 
+    
+
+
     public SeatingZoneGUI(Concert concert){
         this.concert = concert;
 
@@ -31,7 +34,7 @@ public class SeatingZoneGUI extends JFrame implements ActionListener , MouseList
         this.setIconImage(img.getImage());
         cp = this.getContentPane(); // สร้าง Container
         cp.setLayout(null); // ปิดการจัดการ Layout
-        cp.setBackground(Color.decode("#FFCCCC")); // กำหนดสีพื้นหลัง
+        cp.setBackground(Color.decode("#F8D5F8")); // กำหนดสีพื้นหลัง
         allBT = new JButton[5][16];
     }
 
@@ -76,7 +79,7 @@ public class SeatingZoneGUI extends JFrame implements ActionListener , MouseList
         
         JPanel p = new JPanel();
         p.setLayout(new GridLayout(5,16 ,5,5)); //กำหนด layout เป็น grid 5x16 ช่อง โดยมีระยะห่างระหว่างปุ่ม 5px
-        p.setBackground(Color.decode("#FFCCCC")); //กำหนดสีพื้นหลังของ panel
+        p.setBackground(Color.decode("#F8D5F8")); //กำหนดสีพื้นหลังของ panel
 
         for(int i=0 ; i< 5 ; i++ ){ 
             for (int j = 0 ; j< 16 ; j ++) {
@@ -122,10 +125,11 @@ public class SeatingZoneGUI extends JFrame implements ActionListener , MouseList
         b1.setBounds(400,550,100,50);
         b1.setBackground(Color.decode("#FF9999"));
 
-        b2 = new JButton("Back");
+        b2 = new RoundedButton("Back");
+        b2.setForeground(Color.WHITE);
         b2.setFont(new Font("Arial",Font.BOLD,20));
         b2.setBounds(30,30,100,50);
-        b2.setBackground(Color.decode("#FF9999"));
+        b2.setBackground(Color.RED);
 
         b1.addActionListener(this);
         b2.addActionListener(this);

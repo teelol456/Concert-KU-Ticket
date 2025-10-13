@@ -10,6 +10,7 @@ public class StandingZoneGUI extends JFrame implements ActionListener{
     Container cp ;
     JLabel standzone , stand , stage , num , price;
     JButton b1 , b2 , minusButton , plusbButton;
+
     public StandingZoneGUI(Concert concert){
         this.concert = concert;
         Initial(); // ตั้งค่าเริ่มต้น
@@ -81,10 +82,11 @@ public class StandingZoneGUI extends JFrame implements ActionListener{
         b1.setBounds(400,550,100,50);
         b1.setBackground(Color.decode("#FF9999"));
 
-        b2 = new JButton("Back");
+        b2 = new RoundedButton("Back");
+        b2.setForeground(Color.WHITE);
         b2.setFont(new Font("Arial",Font.BOLD,20));
         b2.setBounds(30,30,100,50);
-        b2.setBackground(Color.decode("#FF9999"));
+        b2.setBackground(Color.RED);
 
         b1.addActionListener(this);
         b2.addActionListener(this);
