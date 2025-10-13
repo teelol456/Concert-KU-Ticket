@@ -43,6 +43,25 @@ public class SeatingZoneGUI extends JFrame implements ActionListener , MouseList
         a.setBounds(240, -100, 400, 400); 
         cp.add(a);
 
+        if (concert != null) {
+            try {
+                Double seatprice = concert.getSeatPrice();
+                JLabel lbseatprice = new JLabel(String.valueOf(seatprice) + " / 1 Ticket");
+                lbseatprice.setFont(new Font("Arial", Font.BOLD, 15));
+                lbseatprice.setBounds(450, 410, 300, 30);
+                cp.add(lbseatprice);
+
+                JLabel seat = new JLabel("Seatprice :");
+                seat.setFont(new Font("Arial", Font.BOLD, 15));
+                seat.setForeground(Color.BLACK);
+                seat.setBounds(350, 410, 300, 30);
+                cp.add(seat);
+
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+
         stage = new JLabel("Stage");
         stage.setBounds(400, 90, 200, 100);
         stage.setFont(new Font("Arial", Font.BOLD, 30));
@@ -80,6 +99,8 @@ public class SeatingZoneGUI extends JFrame implements ActionListener , MouseList
         JPanel p = new JPanel();
         p.setLayout(new GridLayout(5,16 ,5,5)); //กำหนด layout เป็น grid 5x16 ช่อง โดยมีระยะห่างระหว่างปุ่ม 5px
         p.setBackground(Color.decode("#F8D5F8")); //กำหนดสีพื้นหลังของ panel
+
+        
 
         for(int i=0 ; i< 5 ; i++ ){ 
             for (int j = 0 ; j< 16 ; j ++) {

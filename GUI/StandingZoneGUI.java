@@ -36,6 +36,25 @@ public class StandingZoneGUI extends JFrame implements ActionListener{
         a.setBounds(240, -100, 400, 400); 
         cp.add(a);
 
+        if (concert != null) {
+            try {
+                Double standprice = concert.getStandPrice();
+                JLabel lbstandprice = new JLabel(String.valueOf(standprice) + " / 1 Ticket");
+                lbstandprice.setFont(new Font("Arial", Font.BOLD, 15));
+                lbstandprice.setBounds(450, 360, 300, 30);
+                cp.add(lbstandprice);
+
+                JLabel p = new JLabel("Standprice : ");
+                p.setFont(new Font("Arial", Font.BOLD, 15));
+                p.setForeground(Color.BLACK);
+                p.setBounds(350, 360, 300, 30);
+                cp.add(p);
+
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+
         standzone = new JLabel("Stand Zone");
         standzone.setFont(new Font("Angsana New", Font.BOLD, 50));
         standzone.setBounds(370, 30, 400, 50);

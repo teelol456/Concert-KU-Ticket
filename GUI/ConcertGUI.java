@@ -10,6 +10,7 @@ import java.util.List;
 
 public class ConcertGUI extends JFrame implements ActionListener {
     Container cp;
+    JButton logout ;
     ArrayList<JButton> buttons = new ArrayList<>();
     ArrayList<String> images = new ArrayList<>();
 
@@ -26,6 +27,14 @@ public class ConcertGUI extends JFrame implements ActionListener {
         concert.setFont(new Font("Angsana New", Font.BOLD, 50));
         concert.setBounds(300, 30, 400, 50);
         cp.add(concert);
+
+        logout = new RoundedButton("Logout");
+        logout.setFont(new Font("Arial",Font.BOLD,20));
+        logout.setForeground(Color.WHITE);
+        logout.setBounds(30,30,120,50);
+        logout.setBackground(Color.RED);
+        logout.addActionListener(this);
+        cp.add(logout);
 
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.decode("#525252")); // สีพื้นหลังข้างใน
@@ -118,6 +127,11 @@ public class ConcertGUI extends JFrame implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == logout) {
+            this.dispose();
+            new LoginGUI();
+        }
+        
         JButton b = (JButton) e.getSource();
         int index = buttons.indexOf(b);
         new ZoneGUI(concertManager.getConcert(index));
