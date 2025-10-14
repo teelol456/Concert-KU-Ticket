@@ -27,7 +27,7 @@ public class RegisterGUI extends JFrame implements ActionListener {
         this.setIconImage(img.getImage());
         cp = this.getContentPane(); // สร้าง Container
         cp.setLayout(null); // ปิดการจัดการ Layout
-        cp.setBackground(Color.decode("#FFCCCC")); // กำหนดสีพื้นหลัง
+        cp.setBackground(Color.decode("#E9E3DF")); // กำหนดสีพื้นหลัง
     }
     private void setComponent() {
         // เพิ่ม Component
@@ -38,8 +38,8 @@ public class RegisterGUI extends JFrame implements ActionListener {
         t2 = new JPasswordField();
         password2 = new JLabel("Confirm Password");
         t3 = new JPasswordField();
-        b1 = new JButton("Submit");
-        b2 = new JButton("Cancel");
+        b1 = new RoundedButton("Submit");
+        b2 = new RoundedButton("Cancel");
 
         // กำหนดขนาดและตำแหน่ง
         register.setBounds(140,20,150,40);
@@ -60,12 +60,14 @@ public class RegisterGUI extends JFrame implements ActionListener {
         // ปุ่ม Submit
         b1.setFont(new Font("Arial",Font.BOLD,15));
         b1.setBounds(210,350,140,40);
-        b1.setBackground(Color.decode("#FF9999"));
+        b1.setForeground(Color.WHITE);
+        b1.setBackground(Color.decode("#C1856D"));
 
         // ปุ่ม Cancel
         b2.setFont(new Font("Arial",Font.BOLD,15));
         b2.setBounds(50,350,140,40);
-        b2.setBackground(Color.decode("#FF9999"));
+        b2.setForeground(Color.WHITE);
+        b2.setBackground(Color.decode("#C1856D"));
 
         // เพิ่ม Event
         b1.addActionListener(this); //อย่าลืม
