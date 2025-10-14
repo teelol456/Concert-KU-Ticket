@@ -3,9 +3,14 @@ package Admin;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import Booking.Booking;
+import Booking.BookingManager;
 import GUI.LoginGUI;
 
 public class AdminConcert extends JFrame implements ActionListener{
@@ -13,9 +18,12 @@ public class AdminConcert extends JFrame implements ActionListener{
     JTable table;
     DefaultTableModel model;
     JTextField t1, t2, t3, t4, t5;
-    JButton b1, b2 , b3 , b4 , ChooseImgBtn;
+    JButton b1, b2 , b3 , b4;
     JComboBox<String> cbImages;
     JLabel lbPreview;
+    
+    BookingManager bm = new BookingManager();
+
     public AdminConcert(){
         Initial(); // ตั้งค่าเริ่มต้น
         setComponent(); // เพิ่ม Component
@@ -124,6 +132,29 @@ public class AdminConcert extends JFrame implements ActionListener{
             }
         });
 
+        /*JButton btnChooseImage = new JButton("เลือกภาพ");
+        btnChooseImage.setBounds(220, 620, 200, 30);
+        cp.add(btnChooseImage);
+
+        lbPreview = new JLabel(); 
+        lbPreview.setBounds(480, 430, 180, 200);
+        lbPreview.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        cp.add(lbPreview);
+
+        btnChooseImage.addActionListener(e -> {
+            JFileChooser chooser = new JFileChooser("D:\\"); // เริ่มต้นที่ไดรฟ์ D
+            chooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image files", "png", "jpg", "jpeg"));
+            int result = chooser.showOpenDialog(null);
+
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File file = chooser.getSelectedFile();
+                ImageIcon icon = new ImageIcon(file.getAbsolutePath());
+                Image img = icon.getImage().getScaledInstance(lbPreview.getWidth(), lbPreview.getHeight(), Image.SCALE_SMOOTH);
+                lbPreview.setIcon(new ImageIcon(img));
+            }
+        });*/
+
+
         // ปุ่ม Add
         b1 = new JButton("Insert");
         b1.setBounds(700, 420, 150, 30);
@@ -135,36 +166,6 @@ public class AdminConcert extends JFrame implements ActionListener{
         b2.setBounds(700, 460, 150, 30);
         b2.addActionListener(this);
         cp.add(b2);
-        
-          // ปุ่ม เพิ่มรูปจากเครื่อง
-        ChooseImgBtn = new JButton(" Choose Image");
-        ChooseImgBtn.setBounds(700, 520, 150, 30); // ล่าง Delete 40 พิกเซล
-        
-        ChooseImgBtn.addActionListener(e -> {
-        JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new File(".")); // เริ่มจากโฟลเดอร์ปัจจุบัน
-        int result = chooser.showOpenDialog(this);
-            if (result == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = chooser.getSelectedFile();
-                String filename = selectedFile.getName();
-                String destPath = "./img/" + filename;
-
-                    // คัดลอกไฟล์ที่เลือกเข้าโฟลเดอร์ ./img/
-                try {
-                    java.nio.file.Files.copy(selectedFile.toPath(), new File(destPath).toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-                    cbImages.addItem(filename);
-                    cbImages.setSelectedItem(filename);
-
-                    // แสดง Preview ทันที
-                    ImageIcon icon = new ImageIcon(destPath);
-                    Image img = icon.getImage().getScaledInstance(lbPreview.getWidth(), lbPreview.getHeight(), Image.SCALE_SMOOTH);
-                    lbPreview.setIcon(new ImageIcon(img));
-            }
-        });
-        cp.add(ChooseImgBtn);
 
         // ปุ่ม Save
         b3 = new JButton("Save");
@@ -220,6 +221,7 @@ public class AdminConcert extends JFrame implements ActionListener{
             int row = table.getSelectedRow();
             if (row != -1) {
                 model.removeRow(row);
+                // bm.deleteBooking(row);
             } else {
                 Popup("Please select a row to delete.");
             }
@@ -238,6 +240,8 @@ public class AdminConcert extends JFrame implements ActionListener{
             fw = new FileWriter("./File/Concert.CSV");
             bw = new BufferedWriter(fw);
 
+            List<String> concertNames = new ArrayList<>();
+            
             for (int i = 0; i < model.getRowCount(); i++) {
                 String name = model.getValueAt(i, 0).toString();
                 String day = model.getValueAt(i, 1).toString();
@@ -245,10 +249,20 @@ public class AdminConcert extends JFrame implements ActionListener{
                 String stand = model.getValueAt(i, 3).toString();
                 String sit = model.getValueAt(i, 4).toString();
                 
+                
+
                 String filename = ((ImageIcon) model.getValueAt(i, 5)).getDescription();
                 bw.write(name + "," + day + "," + location + "," + stand + "," + sit + "," + filename);
                 bw.newLine(); // ขึ้นบรรทัดใหม่
+
+                concertNames.add(name);
+
+                if(!bm.hasBooking(name)){
+                    bm.saveBooking(Booking.fromString(name +"," + 100 + ","+"[]"));
+                }
             }
+
+            bm.deleteNotIn(concertNames);
 
             System.out.println("บันทึกข้อมูลลงไฟล์เรียบร้อยแล้ว");
             Popup("Saved to concerts.csv");
@@ -274,36 +288,6 @@ public class AdminConcert extends JFrame implements ActionListener{
         //d.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
         d.setVisible(true);
     }
-
-
-    /*public static String[][] loadConcertsSimple() {
-        String[][] data = new String[100][6]; 
-        int row = 0;
-
-        try {
-            BufferedReader br = new BufferedReader(new FileReader("./File/Concert.CSV"));
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(",", 6); // 6 คอลัมน์
-                for (int i = 0; i < 6; i++) {
-                    data[row][i] = parts[i];
-                }
-                row++;
-            }
-            br.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-        // คืนค่า array ที่มีข้อมูลจริง
-        String[][] result = new String[row][6];
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < 6; j++) {
-                result[i][j] = data[i][j];
-            }
-        }
-        return result;
-    }*/
     
     private void loadFromCSV() {
         try {

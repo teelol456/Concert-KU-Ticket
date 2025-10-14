@@ -1,19 +1,28 @@
 package Zone;
 
 public class Seat {
-    private String seatId;
+    private int seatRow;
+    private int seatColumn;
     private boolean available;
 
-    public Seat(String seatId,boolean available){
-        this.seatId = seatId;
+    public Seat(int seatRow,int seatColumn,boolean available){
+        this.seatRow = seatRow;
+        this.seatColumn = seatColumn;
         this.available = available;
-    }
-
-    public String getseatId(){
-        return seatId;
     }
 
     public boolean getavailable(){
         return available;
     }
+
+    public Object getRow() {
+        return seatRow;
+    }
+
+    public Object getColumn() {
+        return seatColumn;
+    }
+
+
 }
+    

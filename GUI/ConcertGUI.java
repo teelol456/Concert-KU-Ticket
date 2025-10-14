@@ -20,7 +20,7 @@ public class ConcertGUI extends JFrame implements ActionListener {
         this.setIconImage(img.getImage());
         cp = this.getContentPane();
         cp.setLayout(null);
-        cp.setBackground(Color.decode("#E9E3DF"));
+        cp.setBackground(Color.decode("#FFCCCC"));
 
         JLabel concert = new JLabel("Concert KU Ticket");
         concert.setFont(new Font("Angsana New", Font.BOLD, 50));
@@ -28,7 +28,7 @@ public class ConcertGUI extends JFrame implements ActionListener {
         cp.add(concert);
 
         JPanel panel = new JPanel(null);
-        panel.setBackground(Color.WHITE); // สีพื้นหลังข้างใน
+        panel.setBackground(Color.decode("#FFCCCC"));
 
         loadConcertsFromCSV(panel); // โหลด CSV และสร้างปุ่ม
 
@@ -54,7 +54,6 @@ public class ConcertGUI extends JFrame implements ActionListener {
         int x = 50, y = 50; // ปรับช่องว่าง ด้านบน ด้านข้าง
         int count = 0;
         for (Concert c : cl){
-            /* 
             JButton btn = new JButton(c.getConcertName());
             btn.setBounds(x, y, 150, 195);
             btn.setBackground(Color.decode("#FF9999"));
@@ -68,44 +67,7 @@ public class ConcertGUI extends JFrame implements ActionListener {
             btn.setVerticalTextPosition(SwingConstants.BOTTOM);
 
             panel.add(btn);
-            buttons.add(btn);   */
-
-            ImageIcon icon = new ImageIcon("./img/" + c.getImage());
-            Image img = icon.getImage().getScaledInstance(150, 173, Image.SCALE_SMOOTH);
-
-            // ปุ่ม custom ที่มีขอบมน
-            JButton btn = new JButton(c.getConcertName()) {
-                @Override
-                protected void paintComponent(Graphics g) {
-                    Graphics2D g2 = (Graphics2D) g.create();
-                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-                    int arc = 20; //  ปรับค่าความโค้ง (ยิ่งมากยิ่งมน)
-                    Shape round = new java.awt.geom.RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), arc, arc);
-
-                    // วาดพื้นหลังขอบมน
-                    g2.setColor(getBackground());
-                    g2.fill(round);
-
-                    // ครอบขอบมนก่อนวาดเนื้อหาในปุ่ม
-                    g2.setClip(round);
-                    super.paintComponent(g2);
-                    g2.dispose();
-                }
-            };
-
-            btn.setFont(new Font("Arial", Font.BOLD, 15));
-            btn.setIcon(new ImageIcon(img));
-            btn.setHorizontalTextPosition(SwingConstants.CENTER);
-            btn.setVerticalTextPosition(SwingConstants.BOTTOM);
-            btn.setBounds(x, y, 150, 195);
-            btn.setFocusPainted(false);
-            btn.setBorderPainted(false);
-            btn.setContentAreaFilled(false);
-            btn.addActionListener(this);
-
-            panel.add(btn);
-            buttons.add(btn);
+            buttons.add(btn);   
 
             x += 270;
             count++;

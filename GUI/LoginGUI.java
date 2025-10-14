@@ -28,7 +28,7 @@ public class LoginGUI extends JFrame implements ActionListener{
         this.setIconImage(img.getImage());
         cp = this.getContentPane(); // สร้าง Container
         cp.setLayout(null); // ปิดการจัดการ Layout
-        cp.setBackground(Color.decode("#E9E3DF")); // กำหนดสีพื้นหลัง
+        cp.setBackground(Color.decode("#FFCCCC")); // กำหนดสีพื้นหลัง
     }
 
     private void setComponent() {
@@ -38,7 +38,7 @@ public class LoginGUI extends JFrame implements ActionListener{
         t1 = new JTextField();
         password = new JLabel("Password");
         t2 = new JPasswordField();
-        b1 = new RoundedButton("Submit");
+        b1 = new JButton("Submit");
 
         // กำหนดขนาดและตำแหน่ง
         login.setBounds(150,20,100,40);
@@ -53,9 +53,8 @@ public class LoginGUI extends JFrame implements ActionListener{
         t2.setBounds(45,200,300,30);
 
         b1.setFont(new Font("Arial",Font.BOLD,15));
-        b1.setForeground(Color.WHITE);
         b1.setBounds(130,290,140,40);
-        b1.setBackground(Color.decode("#C1856D"));
+        b1.setBackground(Color.decode("#FF9999"));
 
         lRegister = new JLabel("<html><u>Register here</u></html>"); // ใช้ HTML เพื่อขีดเส้นใต้ข้อความ
         lRegister.setFont(new Font("Arial", Font.PLAIN, 14));

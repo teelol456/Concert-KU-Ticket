@@ -11,5 +11,6 @@ public class StandingZone extends Zone{
     public int getMaxTickets(){
         return maxTickets;
     }
+    
 
 }
