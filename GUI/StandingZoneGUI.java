@@ -143,7 +143,7 @@ public class StandingZoneGUI extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == b1) {
             if (count == 0) {
-                Popup("Must buy the tickets");
+                Popup("Must buy the ticket!!!");
             }
             else {
                 Popup("Thank you for your purchase!");
@@ -216,4 +216,5 @@ public class StandingZoneGUI extends JFrame implements ActionListener{
         new StandingZoneGUI();
     }
 }
+
 
