@@ -1,27 +1,32 @@
 package GUI;
 
 import java.awt.event.*;
-import javax.swing.*;
-import Concert.Concert;
-import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+import javax.swing.*;
+
+import Booking.*;
+import Concert.*;
+import java.awt.*;
+import Zone.*;
 
 public class SeatingZoneGUI extends JFrame implements ActionListener , MouseListener{
     Concert concert;
     Container cp ;
-    JLabel sittingzone , L , stage , c1 , c2 , c3 , red , white , black , price , Boxlabel ,  Textprice , TextTicket; ;
+    JLabel sittingzone , L , stage , c1 , c2 , c3 , red , white , black , price , Boxlabel ,  Textprice , TextTicket , A , B , C , D , E;
     JButton b1 , b2 ;
     JButton allBT[][] ;
 
-    public SeatingZoneGUI(Concert concert){
+    BookingManager bm = new BookingManager();
+    Booking booking;
+
+
+    public SeatingZoneGUI(Concert concert,Booking booking){
         this.concert = concert;
+        this.booking = booking;
 
-        Initial(); // ตั้งค่าเริ่มต้น
-        setComponent(); // เพิ่ม Component
-        Finally(); // ตั้งค่าขั้นสุดท้าย
-    }
-
-    public SeatingZoneGUI(){
         Initial(); // ตั้งค่าเริ่มต้น
         setComponent(); // เพิ่ม Component
         Finally(); // ตั้งค่าขั้นสุดท้าย
@@ -65,50 +70,64 @@ public class SeatingZoneGUI extends JFrame implements ActionListener , MouseList
         stage.setFont(new Font("Arial", Font.BOLD, 30));
 
         c1 = new JLabel();
-        c1.setBounds(650, 20, 30, 30);
+        c1.setBounds(690, 20, 30, 30);
         c1.setBackground(Color.red);
         c1.setHorizontalAlignment(JLabel.CENTER);
         c1.setOpaque(true);
 
         red = new JLabel("Selected");
-        red.setBounds(690, 20, 100, 30);
+        red.setBounds(730, 20, 100, 30);
         red.setFont(new Font("Arial", Font.PLAIN, 14));
 
         c2 = new JLabel();
-        c2.setBounds(650, 70, 30, 30);
+        c2.setBounds(690, 70, 30, 30);
         c2.setBackground(Color.white);
         c2.setHorizontalAlignment(JLabel.CENTER);
         c2.setOpaque(true);
 
         white = new JLabel("Available");
-        white.setBounds(690, 70, 100, 30);
+        white.setBounds(730, 70, 100, 30);
         white.setFont(new Font("Arial", Font.PLAIN, 14));
 
         c3 = new JLabel();
-        c3.setBounds(650, 120,30, 30);
+        c3.setBounds(690, 120,30, 30);
         c3.setBackground(Color.black);
         c3.setHorizontalAlignment(JLabel.CENTER);
         c3.setOpaque(true);
 
         black = new JLabel("Unavailable");
-        black.setBounds(690, 120, 100, 30);
+        black.setBounds(730, 120, 100, 30);
         black.setFont(new Font("Arial", Font.PLAIN, 14));
         
         JPanel p = new JPanel();
         p.setLayout(new GridLayout(5,16 ,5,5)); //กำหนด layout เป็น grid 5x16 ช่อง โดยมีระยะห่างระหว่างปุ่ม 5px
         p.setBackground(Color.decode("#E9E3DF")); //กำหนดสีพื้นหลังของ panel
 
-        for(int i=0 ; i< 5 ; i++ ){ 
-            for (int j = 0 ; j< 16 ; j ++) {
+        for (int i = 0; i < 5; i++) { 
+            for (int j = 0; j < 16; j++) {
                 allBT[i][j] = new JButton();
-                allBT[i][j].setBackground(Color.white); //ช่องเป็นสีขาว
-                allBT[i][j].setPreferredSize(new Dimension(20, 20)); //กำหนดขนาดปุ่ม
-                p.add(allBT[i][j]);
-                allBT[i][j].addMouseListener(this); 
+                allBT[i][j].setPreferredSize(new Dimension(20, 20));
+
+                boolean isBooked = false;
+                for (Seat s : booking.getSeatList()) {
+                    if (s.getRow().equals(i) && s.getColumn().equals(j)) {
+                        isBooked = true;
+                        break; 
+                    }
+                }
+                if (isBooked) {
+                    allBT[i][j].setBackground(Color.BLACK);
+                } else {
+                    allBT[i][j].setActionCommand(i + "-" + j);
+                    allBT[i][j].setBackground(Color.WHITE);
+                    allBT[i][j].addMouseListener(this);
+                }
+                p.add(allBT[i][j]); 
             }
         }
+
         p.setBounds(100, 200, 700, 200); //กำหนดขนาดและตำแหน่งของ panel
-    
+
         Textprice = new JLabel("Total Price");
         Textprice.setFont(new Font("Arial", Font.BOLD, 15));
         Textprice.setForeground(Color.WHITE);
@@ -138,14 +157,11 @@ public class SeatingZoneGUI extends JFrame implements ActionListener , MouseList
         L.setBounds(490, 520, 50, 40);
         L.setBackground(Color.decode("#191919"));
         L.setOpaque(true);
-       
 
         b1 = new RoundedButton("Buy Tickets");
         b1.setForeground(Color.black);
         b1.setFont(new Font("Arial",Font.BOLD,20));
         b1.setBounds(380,580,150,50);
-        
-
     
         Boxlabel = new RoundedLabel("", 20); 
         Boxlabel.setBounds(330, 450, 250, 200);
@@ -178,6 +194,24 @@ public class SeatingZoneGUI extends JFrame implements ActionListener , MouseList
         cp.add(b1); cp.add(b2);
         cp.add(Boxlabel);
 
+        String[] rowLabels = {"A", "B", "C", "D", "E"};
+        for (int i = 0; i < 5; i++) {
+            JLabel rowLabel = new JLabel(rowLabels[i]);
+            rowLabel.setFont(new Font("Arial", Font.BOLD, 16));
+            rowLabel.setBounds(120, 190 + i * 50, 30, 30); // จัดตำแหน่งแนวตั้งให้ตรงกับแต่ละแถว
+            cp.add(rowLabel);
+        }
+
+        JPanel row = new JPanel();
+        row.setLayout(new BoxLayout(row, BoxLayout.X_AXIS));
+
+        for (int i = 1; i <= 16; i++) {
+            JLabel num = new JLabel(i + " ");
+            num.setFont(new Font("Arial", Font.PLAIN, 16));
+            row.add(num);
+            row.add(Box.createRigidArea(new Dimension(10, 0))); // ช่องว่างระหว่างเลข
+        }
+        add(row);
     }
 
     private void Finally() {
@@ -210,13 +244,21 @@ public class SeatingZoneGUI extends JFrame implements ActionListener , MouseList
         }
     }
 
+    List<String> selecseatlist = new ArrayList<>();
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == b1) {
-               if (x == 0) {
+            if (x == 0) {
                 Popup("Must buy the ticket!!!");
-            }
-            else {
+            } else{
+                String joinedNames = String.join(";", selecseatlist);
+                List<Seat> mergedSeats = booking.getSeatList();
+                Booking nb = Booking.fromString(booking.getConcertName()+","+booking.getStandMaxTickets()+"," + "[" + joinedNames + "]"); 
+                for (Seat s : nb.getSeatList()){
+                    mergedSeats.add(s);
+                }
+                bm.setBooking(new Booking(booking.getConcertName(), booking.getStandMaxTickets(), mergedSeats));
+
                 Popup("Thank you for your purchase!");
                 this.dispose();
             }
@@ -246,12 +288,19 @@ public class SeatingZoneGUI extends JFrame implements ActionListener , MouseList
     public void mouseClicked(MouseEvent e) { //เมื่อคลิกปุ่ม
         if (tmp == Color.white) {//ถ้าเป็นสีขาวให้เปลี่ยนเป็นเป็นสีแดง
             if ( x < 2 ) {e.getComponent().setBackground(Color.red);
+                JButton b = (JButton)e.getSource();
+                selecseatlist.add(b.getActionCommand());
+            
+
                 tmp = Color.red;
                 L.setText(++x+"");//นับเลข+ชึ้นไปเมื่อกดเป็นสีแดง 
                 double total = concert.getSeatPrice() * x ;
                 price.setText((int)(total) + " Bath");
             }   
         } else if (tmp == Color.red) {
+            JButton b = (JButton)e.getSource();
+            selecseatlist.remove(selecseatlist.indexOf(b.getActionCommand()));
+
             e.getComponent().setBackground(Color.white);//ถ้าเป็นสีแดงให้เป็นสีขาว
             tmp = Color.white;
             L.setText(--x+"");//ลบเลขเมื่อกดอีกครั้งเป็นสีขาว
@@ -286,12 +335,7 @@ public class SeatingZoneGUI extends JFrame implements ActionListener , MouseList
         protected void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(3));
-            g2.setColor(Color.BLACK);
             g2.drawArc(10, 200, 400, 50, 0, 170);
         }
-    }
-
-    public static void main(String[] args) {
-        new SeatingZoneGUI();
     }
 }

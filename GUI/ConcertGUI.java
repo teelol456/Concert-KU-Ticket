@@ -10,6 +10,7 @@ import java.util.List;
 
 public class ConcertGUI extends JFrame implements ActionListener {
     Container cp;
+    JButton b3 ;
     ArrayList<JButton> buttons = new ArrayList<>();
     ArrayList<String> images = new ArrayList<>();
 
@@ -38,6 +39,14 @@ public class ConcertGUI extends JFrame implements ActionListener {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
         cp.add(scrollPane);
+
+        b3 = new RoundedButton("Logout");
+        b3.setFont(new Font("Arial",Font.BOLD,20));
+        b3.setBounds(30,30,100,50);
+        b3.setForeground(Color.WHITE);
+        b3.setBackground(Color.decode("#8C1007"));
+        b3.addActionListener(this);
+        cp.add(b3);
         
 
         this.setTitle("Concert KU Ticket");
@@ -103,6 +112,10 @@ public class ConcertGUI extends JFrame implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == b3) {
+            this.dispose();
+            new LoginGUI();
+        }
         JButton b = (JButton) e.getSource();
         int index = buttons.indexOf(b);
         new ZoneGUI(concertManager.getConcert(index));

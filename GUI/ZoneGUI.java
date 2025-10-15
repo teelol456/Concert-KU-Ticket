@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import Booking.Booking;
+import Booking.BookingManager;
 import Concert.Concert;
 
 public class ZoneGUI extends JFrame implements ActionListener{
@@ -11,6 +13,10 @@ public class ZoneGUI extends JFrame implements ActionListener{
     JLabel zone , stage , Speaker , date , location , standprice , seatprice , seeleam ;
     JButton b1 , b2 , b3 ;
     Concert concert;
+
+    BookingManager bm = new BookingManager();
+    Booking booking;
+
 
     public ZoneGUI(){
         Initial(); // ตั้งค่าเริ่มต้น
@@ -20,6 +26,7 @@ public class ZoneGUI extends JFrame implements ActionListener{
 
     public ZoneGUI(Concert concert){
         this.concert = concert;
+        this.booking = bm.getBooking(concert.getConcertName());
 
         Initial(); // ตั้งค่าเริ่มต้น
         setComponent(); // เพิ่ม Component
@@ -189,14 +196,33 @@ public class ZoneGUI extends JFrame implements ActionListener{
             new ConcertGUI();
         }
         else if (e.getSource() == b1) {
-            this.dispose();
-            new StandingZoneGUI(concert);
+            if(booking.getStandMaxTickets() <= 0){
+                Popup("Standing Zone Sold Out");
+            } else{
+                this.dispose();
+                new StandingZoneGUI(concert,booking);
+            }
+            
         }
         else if (e.getSource() == b2) {
             this.dispose();
-            new SeatingZoneGUI(concert);
+            new SeatingZoneGUI(concert,booking);
         }
     }
+
+    public void Popup(String s) {
+        JDialog d = new JDialog();
+        JLabel l = new JLabel(s);
+        l.setFont(new Font("",Font.PLAIN,18));
+        l.setHorizontalAlignment(JLabel.CENTER);
+        d.getContentPane();
+        d.add(l);
+        d.setSize(400,200); // กำหนดขนาด
+        d.setLocationRelativeTo(null);
+        //d.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
+        d.setVisible(true);
+    }
+
     public static void main(String[] args) {
         new ZoneGUI();
     }

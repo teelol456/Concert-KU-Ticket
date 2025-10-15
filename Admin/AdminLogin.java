@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import GUI.LoginGUI;
+import GUI.*;
 import UserAcount.Account;
 import UserAcount.AccountManager;
 
@@ -28,7 +29,7 @@ public class AdminLogin extends JFrame implements ActionListener{
         this.setIconImage(img.getImage());
         cp = this.getContentPane(); // สร้าง Container
         cp.setLayout(null); // ปิดการจัดการ Layout
-        cp.setBackground(Color.decode("#FFCCCC")); // กำหนดสีพื้นหลัง
+        cp.setBackground(Color.decode("#E9E3DF")); // กำหนดสีพื้นหลัง
     }
 
     private void setComponent() {
@@ -38,8 +39,8 @@ public class AdminLogin extends JFrame implements ActionListener{
         t1 = new JTextField();
         password = new JLabel("Password");
         t2 = new JPasswordField();
-        b1 = new JButton("Submit");
-        b2 = new JButton("Back");
+        b1 = new RoundedButton("Submit");
+        b2 = new RoundedButton("Back");
 
         // กำหนดขนาดและตำแหน่ง
         login.setBounds(105,20,200,40);
@@ -55,11 +56,13 @@ public class AdminLogin extends JFrame implements ActionListener{
 
         b1.setFont(new Font("Arial",Font.BOLD,15));
         b1.setBounds(210,290,140,40);
-        b1.setBackground(Color.decode("#FF9999"));
+        b1.setForeground(Color.WHITE);
+        b1.setBackground(Color.decode("#C1856D"));
 
         b2.setFont(new Font("Arial",Font.BOLD,15));
         b2.setBounds(50,290,140,40);
-        b2.setBackground(Color.decode("#FF9999"));
+        b2.setForeground(Color.WHITE);
+        b2.setBackground(Color.decode("#C1856D"));
 
         // เพิ่ม Event
         b1.addActionListener(this); //อย่าลืม

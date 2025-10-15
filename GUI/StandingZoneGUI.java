@@ -3,6 +3,9 @@ package GUI;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
+import Booking.Booking;
+import Booking.BookingManager;
 import Concert.Concert;
 
 public class StandingZoneGUI extends JFrame implements ActionListener{
@@ -11,8 +14,14 @@ public class StandingZoneGUI extends JFrame implements ActionListener{
     JLabel standzone , stand , stage , num , price , Boxlabel;
     JButton b1 , b2 , minusButton , plusbButton;
 
-    public StandingZoneGUI(Concert concert){
+    BookingManager bm = new BookingManager();
+    Booking booking;
+
+    
+    public StandingZoneGUI(Concert concert,Booking booking){
         this.concert = concert;
+        this.booking = booking;
+
         Initial(); // ตั้งค่าเริ่มต้น
         setComponent(); // เพิ่ม Component
         Finally(); // ตั้งค่าขั้นสุดท้าย
@@ -142,13 +151,17 @@ public class StandingZoneGUI extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == b1) {
-            if (count == 0) {
-                Popup("Must buy the ticket!!!");
-            }
-            else {
+            if(count > 0){
+
+                Booking nb = new Booking(concert.getConcertName(),booking.getStandMaxTickets()-count,booking.getSeatList());
+                bm.setBooking(nb);
+
                 Popup("Thank you for your purchase!");
                 this.dispose();
+            }else{
+                Popup("Must buy the ticket!!!");
             }
+    
         }
         else if (e.getSource() == b2) {
             new ZoneGUI(concert); // ส่งข้อมูลเดิมกลับไป
@@ -161,10 +174,18 @@ public class StandingZoneGUI extends JFrame implements ActionListener{
                 price.setText((int)(total) + " Bath");
             }
         } else if (e.getSource() == plusbButton) {
-            if (count < 2) {
+            if(booking.getStandMaxTickets() >= 2){
+                if (count < 2) {
                 num.setText(++count + "");  // เพิ่มค่าก่อนแสดง
                 double total = concert.getStandPrice() * count;
                 price.setText((int)(total) + " Bath");
+                }
+            } else {
+                if (count < 1) {
+                num.setText(++count + "");  // เพิ่มค่าก่อนแสดง
+                double total = concert.getStandPrice() * count;
+                price.setText((int)(total) + " Bath");
+                }
             }
         }
     }
@@ -210,9 +231,5 @@ public class StandingZoneGUI extends JFrame implements ActionListener{
             g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius); // วาดสี่เหลี่ยมมน
             super.paintComponent(g);
         }
-    }
-
-    public static void main(String[] args) {
-        new StandingZoneGUI();
     }
 }
