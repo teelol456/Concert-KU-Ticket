@@ -42,7 +42,7 @@ public class ConcertGUI extends JFrame implements ActionListener {
 
         b3 = new RoundedButton("Logout");
         b3.setFont(new Font("Arial",Font.BOLD,20));
-        b3.setBounds(30,30,100,50);
+        b3.setBounds(30,30,120,50);
         b3.setForeground(Color.WHITE);
         b3.setBackground(Color.decode("#8C1007"));
         b3.addActionListener(this);
@@ -113,13 +113,14 @@ public class ConcertGUI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == b3) {
-            this.dispose();
             new LoginGUI();
+            this.dispose();
         }
-        JButton b = (JButton) e.getSource();
+        else {JButton b = (JButton) e.getSource();
         int index = buttons.indexOf(b);
         new ZoneGUI(concertManager.getConcert(index));
         this.dispose();
+        }
     }
 
     public static void main(String[] args) {
