@@ -1,24 +1,25 @@
-package GUI;
+package AdminGUI;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
-import AdminGUI.AdminLogin;
+import GUI.LoginGUI;
+import GUI.*;
 import UserAcount.Account;
 import UserAcount.AccountManager;
 
-
-public class LoginGUI extends JFrame implements ActionListener{
+public class AdminLogin extends JFrame implements ActionListener{
     Container cp ;
-    JLabel login , username , password , lRegister , admin;
+    JLabel login , username , password , lRegister;
     JTextField t1;
     JPasswordField t2;
-    JButton b1 ;
+    JButton b1 , b2;
 
     private AccountManager accountManager = new AccountManager();
     
-    public LoginGUI(){
+    public AdminLogin(){
         Initial(); // ตั้งค่าเริ่มต้น
         setComponent(); // เพิ่ม Component
         Finally(); // ตั้งค่าขั้นสุดท้าย
@@ -33,15 +34,16 @@ public class LoginGUI extends JFrame implements ActionListener{
 
     private void setComponent() {
         // เพิ่ม Component
-        login = new JLabel("Login");
+        login = new JLabel("AdminLogin");
         username = new JLabel("Username");
         t1 = new JTextField();
         password = new JLabel("Password");
         t2 = new JPasswordField();
         b1 = new RoundedButton("Submit");
+        b2 = new RoundedButton("Back");
 
         // กำหนดขนาดและตำแหน่ง
-        login.setBounds(150,20,100,40);
+        login.setBounds(105,20,200,40);
         login.setFont(new Font("Arial",Font.BOLD,30));
 
         username.setBounds(50,100,200,30);
@@ -53,44 +55,28 @@ public class LoginGUI extends JFrame implements ActionListener{
         t2.setBounds(45,200,300,30);
 
         b1.setFont(new Font("Arial",Font.BOLD,15));
+        b1.setBounds(210,290,140,40);
         b1.setForeground(Color.WHITE);
-        b1.setBounds(130,290,140,40);
         b1.setBackground(Color.decode("#C1856D"));
 
-        lRegister = new JLabel("<html><u>Register here</u></html>"); // ใช้ HTML เพื่อขีดเส้นใต้ข้อความ
-        lRegister.setFont(new Font("Arial", Font.PLAIN, 14));
-        lRegister.setForeground(Color.BLUE); // เปลี่ยนสีข้อความ
-        lRegister.setBounds(255,240,120,30);
-        lRegister.setCursor(new Cursor(Cursor.HAND_CURSOR)); // เปลี่ยนเคอร์เซอร์เมื่อชี้ไปที่ป้าย
-        lRegister.addMouseListener(new MouseAdapter() { // เพิ่ม MouseListener
-            @Override
-            public void mouseClicked(MouseEvent e) { // เมื่อคลิกที่ป้าย Register
-                Register(); // เรียกฟังก์ชัน Register()
-            }
-        });
-        admin = new JLabel("<html><u>Admin</u></html>"); // ใช้ HTML เพื่อขีดเส้นใต้ข้อความ
-        admin.setFont(new Font("Arial", Font.PLAIN, 14));
-        admin.setForeground(Color.BLUE); // เปลี่ยนสีข้อความ
-        admin.setBounds(320,10,120,30);
-        admin.setCursor(new Cursor(Cursor.HAND_CURSOR)); // เปลี่ยนเคอร์เซอร์เมื่อชี้ไปที่ป้าย
-        admin.addMouseListener(new MouseAdapter() { // เพิ่ม MouseListener
-            @Override
-            public void mouseClicked(MouseEvent e) { // เมื่อคลิกที่ป้าย Register
-                Admin(); // เรียกฟังก์ชัน Register()
-            }
-        });
+        b2.setFont(new Font("Arial",Font.BOLD,15));
+        b2.setBounds(50,290,140,40);
+        b2.setForeground(Color.WHITE);
+        b2.setBackground(Color.decode("#C1856D"));
+
         // เพิ่ม Event
         b1.addActionListener(this); //อย่าลืม
+        b2.addActionListener(this);
 
         // เพิ่ม Component ลงใน Container
         cp.add(login); 
         cp.add(username); cp.add(t1);
         cp.add(password); cp.add(t2);
-        cp.add(b1); cp.add(lRegister); cp.add(admin);
+        cp.add(b1); cp.add(b2);
     }
 
     private void Finally() {
-        this.setTitle("Concert KU Ticket"); // = ชื่อ
+        this.setTitle("Concert KU Ticket (Admin)"); // = ชื่อ
         this.setSize(400,400); // = ขนาด
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // = ปิดโปรแกรม
         this.setVisible(true); // = แสดงผล
@@ -103,14 +89,18 @@ public class LoginGUI extends JFrame implements ActionListener{
         if (e.getSource().equals(b1)) { // ตรวจสอบว่ากดปุ่ม Submit หรือไม่
             CheckAccount(t1.getText() , new String(t2.getPassword()));
         }
+         else if (e.getSource() == b2) { // ถ้ากดปุ่ม Cancel
+            this.dispose(); // Close the register window
+            new LoginGUI(); // Open the login window
+        }
     }
 
     private void CheckAccount(String username, String password) {
         Account acc = accountManager.getAccount(username);
         if(accountManager.hasAccount(username)){
             if(acc.getPassword().equals(password)){
-                new ConcertGUI(); 
-                this.dispose(); 
+                new AdminConcert();
+                this.dispose();
             } else Popup("Invalid username or password.");
         }   
         else Popup("Invalid username or password.");
@@ -126,13 +116,5 @@ public class LoginGUI extends JFrame implements ActionListener{
         d.setLocationRelativeTo(null);
         //d.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
         d.setVisible(true);
-    }
-    public void Register() {
-        new RegisterGUI(); // เปิดหน้าต่าง Register
-        this.dispose(); // ปิดหน้าต่าง Login
-    }
-    public void Admin(){
-        new AdminLogin();
-        this.dispose();
     }
 }

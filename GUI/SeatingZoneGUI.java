@@ -10,7 +10,6 @@ import javax.swing.*;
 import Booking.*;
 import Concert.*;
 import java.awt.*;
-import Zone.*;
 
 public class SeatingZoneGUI extends JFrame implements ActionListener , MouseListener{
     Concert concert;
@@ -198,20 +197,21 @@ public class SeatingZoneGUI extends JFrame implements ActionListener , MouseList
         for (int i = 0; i < 5; i++) {
             JLabel rowLabel = new JLabel(rowLabels[i]);
             rowLabel.setFont(new Font("Arial", Font.BOLD, 16));
-            rowLabel.setBounds(120, 190 + i * 50, 30, 30); // จัดตำแหน่งแนวตั้งให้ตรงกับแต่ละแถว
+            rowLabel.setBackground(Color.decode("#E9E3DF"));
+            rowLabel.setBounds(80, 210 + i * 40, 30, 20); // จัดตำแหน่งแนวตั้งให้ตรงกับแต่ละแถว
             cp.add(rowLabel);
         }
 
-        JPanel row = new JPanel();
-        row.setLayout(new BoxLayout(row, BoxLayout.X_AXIS));
+        JPanel row = new JPanel(new GridLayout(1, 16, 5, 0));
+        row.setBackground(Color.decode("#E9E3DF"));
 
         for (int i = 1; i <= 16; i++) {
-            JLabel num = new JLabel(i + " ");
-            num.setFont(new Font("Arial", Font.PLAIN, 16));
+            JLabel num = new JLabel(String.valueOf(i), SwingConstants.CENTER);
+            num.setFont(new Font("Arial", Font.BOLD, 16));
             row.add(num);
-            row.add(Box.createRigidArea(new Dimension(10, 0))); // ช่องว่างระหว่างเลข
         }
-        add(row);
+        row.setBounds(100, 170, 700, 30);
+        cp.add(row);
     }
 
     private void Finally() {

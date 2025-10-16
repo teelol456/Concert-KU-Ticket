@@ -2,7 +2,8 @@ package Booking;
 
 import java.util.ArrayList;
 import java.util.List;
-import Zone.Seat;
+
+import Concert.Seat;
 
 public class Booking {
     private String concert_name;
@@ -58,7 +59,7 @@ public class Booking {
                 String[] parts = pair.split("-");
                 int row = Integer.parseInt(parts[0]);
                 int col = Integer.parseInt(parts[1]);
-                seats.add(new Seat(row, col, true));
+                seats.add(new Seat(row, col));
             }
         }
         return new Booking(name, stand_max, seats);
